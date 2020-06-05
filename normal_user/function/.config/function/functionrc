@@ -15,14 +15,8 @@
 [ -f "$HOME/.config/privatekey/privatekeyrc" ] && source "$HOME/.config/privatekey/privatekeyrc"
 
 # Load more PATH
-[ -d "$HOME/.scripts/ninjutsu" ] && PATH="$HOME/.scripts/ninjutsu:$PATH"
-[ -d "$HOME/.scripts/curljutsu" ] && PATH="$HOME/.scripts/curljutsu:$PATH"
-[ -d "$HOME/.scripts/sealingjutsu" ] && PATH="$HOME/.scripts/sealingjutsu:$PATH"
-[ -d "$HOME/.scripts/kinjutsu" ] && PATH="$HOME/.scripts/kinjutsu:$PATH"
-[ -d "$HOME/.scripts/taijutsu" ] && PATH="$HOME/.scripts/taijutsu:$PATH"
-[ -d "$HOME/.scripts/senjutsu" ] && PATH="$HOME/.scripts/senjutsu:$PATH"
-[ -d "$HOME/.scripts/summoningjutsu" ] && PATH="$HOME/.scripts/summoningjutsu:$PATH"
-[ -d "$HOME/.scripts/binjutsu_x86_64" ] && PATH="$HOME/.scripts/binjutsu_x86_64:$PATH"
+[ -d "$HOME/.scripts" ] && PATH="$HOME/.scripts:$PATH"
+[ -d "$HOME/.binjutsu/x86_64" ] && PATH="$HOME/.binjutsu/x86_64:$PATH"
 
 # no line wrapping in less
 export LESS=$LESS" -S"
