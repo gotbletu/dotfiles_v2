@@ -1,0 +1,26 @@
+#!/bin/sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+#
+# DATE: Tue January 10, 2017
+#
+# DESC: Elvi to search torrentz2
+# elvis: torrentz2 	-- Search torrentz2 for torrents (https://torrentz2.eu)
+. surfraw || exit 1
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search words]...
+Description:
+  Search torrentz2 (https://torrentz2.eu) for torrents
+EOF
+    w3_global_usage
+}
+
+w3_config
+w3_parse_args "$@"
+if test -z "$w3_args"; then
+    w3_browse_url "https://torrentz2.eu"
+else
+    escaped_args=`w3_url_of_arg $w3_args`
+    w3_browse_url "https://torrentz2.eu/search?f=${escaped_args}"
+fi

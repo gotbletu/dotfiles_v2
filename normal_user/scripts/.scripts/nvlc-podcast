@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# DEMO: https://www.youtube.com/watch?v=7y_58wpHuFE
+
+helpmsg() {
+  printf "%s\n" "desc: play podcast rss feeds using text user interface vlc"
+  printf "%s\n" "depend: vlc"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [rssfeed]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} https://feeds.fireside.fm/linuxunplugged/rss"
+  printf "%s\n" "  $ ${0##*/} 'https://destinationlinux.org/feed/mp3|https://latenightlinux.com/feed/mp3'"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  nvlc --no-color -S podcast --podcast-urls "$@"
+fi

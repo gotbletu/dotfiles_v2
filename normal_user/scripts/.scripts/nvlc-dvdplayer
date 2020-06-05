@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# DEMO: https://www.youtube.com/watch?v=7y_58wpHuFE
+
+helpmsg() {
+  printf "%s\n" "desc: play dvd movies using text user interface vlc"
+  printf "%s\n" "depend: vlc"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [device(default /dev/cdrom]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/}"
+  printf "%s\n" "  $ ${0##*/} /dev/dvd"
+  printf "%s\n" "  $ ${0##*/} /dev/sr0"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  nvlc --no-color "${1:-/dev/cdrom}"
+fi

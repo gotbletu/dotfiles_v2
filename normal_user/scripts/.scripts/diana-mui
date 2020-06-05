@@ -1,0 +1,172 @@
+#!/usr/bin/env bash
+###             _   _     _      _
+###  __ _  ___ | |_| |__ | | ___| |_ _   _
+### / _` |/ _ \| __| '_ \| |/ _ \ __| | | |
+###| (_| | (_) | |_| |_) | |  __/ |_| |_| |
+### \__, |\___/ \__|_.__/|_|\___|\__|\__,_|
+### |___/
+###       https://www.youtube.com/user/gotbletu
+###       https://twitter.com/gotbletu
+###       https://github.com/gotbletu
+###       gotbletu@gmail.com
+###
+### Author          : gotbletu
+### Name            : diana-mui
+### Version         : 0.2.4
+### Date            : 2020-05-05
+### Description     : diana-mui is a Menu User Interface to the diana program. Diana is a commandline interface to aria2 daemon
+### Depends On      : bash  aria2  coreutils  fzf  gawk  procps-ng  xdg-utils  diana (https://github.com/baskerville/diana)
+### Video Demo      : https://www.youtube.com/watch?v=y59JwlYsrAE
+### References      : https://github.com/baskerville/diana/blob/87c5b1b57425585b4c0f543edcf7e9038cf793c5/diana#L427-L429
+
+# 2020-05-05 v0.2.4 colors and minor fixes
+# 2020-05-05 v0.2.3 added d,D,M hotkeys for changing config, download path, show path. shellcheck passes 99%-ignore expand warning
+# 2019-07-20 v0.2.2 added tmux clear scrollback
+# 2019-06-07 v0.2.1 added extra hotkeys
+
+Color_Off='\e[0m'
+Black='\e[0;30m'
+Red='\e[0;31m'
+Green='\e[0;32m'
+Yellow='\e[0;33m'
+Blue='\e[0;34m'
+Purple='\e[0;35m'
+Cyan='\e[0;36m'
+White='\e[0;37m'
+
+# download path
+DIANA_DOWNLOAD_DIR="/media/EdoTensei/Aria"
+
+main_program () {
+while true; do
+  printf "\033c"
+  printf '%s\n' '  o|l)   Open File <==> List All Downloads'
+  printf '%s\n' '  a|A)   Add <==> Add Paused'
+  printf '%s\n' '  i|f)   File Info <==> Show Filename'
+  printf '%s\n' '  r|R)   Remove * <==> Force Remove *'
+  printf '%s\n' '  p|P)   Pause * <==> Pause All Active'
+  printf '%s\n' '  c|C)   Resume * <==> Resume All Paused'
+  printf '%s\n' '  T)     Stop Seeding Completed Torrents'
+  printf '%s\n' '  E)     Clear Completed Downloads & Errors'
+  printf '%s\n' '  M)     Modify Aria2 Configuration'
+  printf '%s\n' '  d|D)   Show Path <==> Change Download Path'
+  printf '%s\n' '  s|S)   Start Aria2c Daemon <==> STOP Daemon'
+  printf '%s\n' '  h|q)   Help <==> Quit'
+  printf '\n'
+  printf '%s\n' '  * Tab:select-single  Ctrl-A:select-all'
+  printf '%s\n' '    Ctrl-T:toggle-all  Ctrl-D:deselect-all'
+  printf '\n'
+  printf "%b" "  ${Purple}Diana MUI >>> Enter Your Choice:${Color_Off} "
+  read -r INPUT
+
+  case "$INPUT" in
+    l)    # List all (Ctrl+c to exit)
+          watch -t diana-progress
+          ;;
+    i)    # Show File Info
+          GID=$( (diana list && diana paused && diana stopped && diana errors) | fzf | awk '{print $1}')
+          diana info "$GID"
+          read -rsn1 -p "Press any key to return to main menu"
+          ;;
+    f)    # Show Filename
+          GID=$( (diana list && diana paused && diana stopped && diana errors) | fzf | awk '{print $1}')
+          diana files "$GID"
+          read -rsn1 -p "Press any key to return to main menu"
+          ;;
+    o)    # Open File
+          GID=$( (diana list && diana paused && diana stopped && diana errors) | fzf | awk '{print $1}')
+          nohup xdg-open "$(diana files "$GID" | cut -d'%' -f2- | awk '{$1=$1};1')" >/dev/null 2>&1 &
+          ;;
+    a)    # Add
+          printf "%b\n" "${Green}>>> Add [<URI>|<MAGNET>|<TORRENT_FILE>|<METALINK_FILE] To Active Downloads${Color_Off}"
+          read -r -e -p ">>> " URI
+          diana add "$URI"
+          ;;
+    A)    # Add Paused
+          printf "%b\n" "${Yellow}>>> Add [<URI>|<MAGNET>|<TORRENT_FILE>|<METALINK_FILE] To Paused Downloads${Color_Off}"
+          read -r -e -p ">>> " URI
+          diana --pause add "$URI"
+          ;;
+    r)    # Removing Download
+          (diana list && diana paused ) | fzf -m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all | awk '{print $1}' | while read -r GID; do diana remove "$GID"; done
+          ;;
+    R)    # Force Removing Download
+          (diana list && diana paused ) | fzf -m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all | awk '{print $1}' | while read -r GID; do diana forcerm "$GID"; done
+          ;;
+    p)    # Pausing Download
+          diana list | fzf -m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all | awk '{print $1}' | while read -r GID; do diana pause "$GID"; done
+          ;;
+    P)    # Pause All The Active Downloads (aka Sleep)
+          diana sleep
+          ;;
+    c)    # Resuming Download
+          diana paused | fzf -m --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all | awk '{print $1}' | while read -r GID; do diana resume "$GID"; done
+          ;;
+    C)    # Resume All The Paused Downloads (aka Wake)
+          diana wake
+          ;;
+    E)    # Clear The List Of Stopped Downloads And Errors (aka Purge)
+          diana purge
+          ;;
+    d)    # show current aria2 download location
+          printf '\n'
+          printf "%s\n" "Current Download Path: $DIANA_DOWNLOAD_DIR"
+          printf '\n'
+          read -rsn1 -p "Press any key to return to main menu"
+          ;;
+    D)    # change aria2 download location
+          printf "%b\n" "${Red}STOP YOUR ARIA DAEMON BEFORE MAKING CHANGES${Color_Off}"
+          printf '\n'
+          printf '%s\n' ">>> Set Your Default Download Directory"
+          read -r -e -p ">>> " DIR
+          DIR=$(printf '%s\n' "$DIR" | sed 's/^~/$HOME/g' | sed 's/\/*$//g') # sub ~ for $HOME, remove trailing slashes in path
+          sed -i 's:^DIANA_DOWNLOAD_DIR=.*:DIANA_DOWNLOAD_DIR='\""$DIR"\"':g' "$0"
+          printf '\n'
+          printf "%b\n" "${Red}Restart Script First And Then Start Daemon To Apply Changes${Color_Off}"
+          printf '\n'
+          read -rsn1 -p "Press any key to return to main menu"
+          ;;
+    M)    # modify edit aria2 configuration
+          if [ ! -d "$HOME/.config/aria2" ]; then mkdir -p "$HOME/.config/aria2" ; fi
+          $EDITOR "$HOME/.config/aria2/aria2.conf"
+          printf "%b\n" "${Red}Restart Daemon To Apply Changes${Color_Off}"
+          read -rsn1 -p "Press any key to return to main menu"
+          ;;
+    T)    # Stop Seeding Completed Downloads (aka Clean)
+          diana clean
+          ;;
+    s)    printf '%s\n' "Starting Aria2c Daemon..."
+          printf '%s\n' "Download To: $DIANA_DOWNLOAD_DIR"
+          mkdir -p "$DIANA_DOWNLOAD_DIR"
+          dad -d "$DIANA_DOWNLOAD_DIR" start
+          sleep 3
+          ;;
+    S)    printf '%s\n' "Stopping Aria2c Daemon..."
+          dad stop
+          sleep 3
+          ;;
+    h|H)  # Help page
+          printf "\033c"
+          printf "%b\n" "${Purple}Diana-MUI${Color_Off} is a menu user interface to the diana program, which is a cli frontend to the aria2 daemon"
+          printf "\n"
+          printf "%s\n" "Depend: aria2 coreutils sed fzf gawk procps-ng diana (https://github.com/baskerville/diana)"
+          printf "%s\n" "Optional: xdg-utils"
+          printf "\n"
+          printf "%s\n" "Author:  gotbletu <gotbletu@gmail.com>"
+          printf "%s\n" "         https://www.youtube.com/user/gotbletu"
+          printf "%s\n" "         https://twitter.com/gotbletu"
+          printf "%s\n" "         https://github.com/gotbletu"
+          printf "\n"
+          read -rsn1 -p "Press any key to return to main menu"
+          ;;
+    q|Q)  # Quit/Exit
+          printf "\033c" && break
+          ;;
+    *)    printf '%s\n' "Invalid Option... Try Again"
+          sleep 2
+          ;;
+  esac
+done
+}
+
+main_program

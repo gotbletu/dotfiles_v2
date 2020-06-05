@@ -1,0 +1,26 @@
+#!/bin/sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+#
+# DATE: Mon May 27, 2013
+#
+# DESC: Elvi to search twitter
+# elvis: twitter		-- Search twitter for tweets (www.twitter.com)
+. surfraw || exit 1
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search words]...
+Description:
+  Search twitter (www.twitter.com) for tweets
+EOF
+    w3_global_usage
+}
+
+w3_config
+w3_parse_args "$@"
+if test -z "$w3_args"; then
+    w3_browse_url "https://www.twitter.com"
+else
+    escaped_args=`w3_url_of_arg $w3_args`
+    w3_browse_url "https://twitter.com/search?q=${escaped_args}"
+fi

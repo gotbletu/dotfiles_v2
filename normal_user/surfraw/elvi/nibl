@@ -1,0 +1,26 @@
+#!/bin/sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+#
+# DATE: Mon Feb 15, 2016
+#
+# DESC: Elvi to search nibl for irc xdcc files
+# elvis: nibl		-- Search nibl for irc xdcc files (http://nibl.co.uk/)
+. surfraw || exit 1
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search words]...
+Description:
+  Search nibl (http://nibl.co.uk/) for irc xdcc files 
+EOF
+    w3_global_usage
+}
+
+w3_config
+w3_parse_args "$@"
+if test -z "$w3_args"; then
+    w3_browse_url "http://nibl.co.uk/"
+else
+    escaped_args=`w3_url_of_arg $w3_args`
+    w3_browse_url "http://nibl.co.uk/bots.php?search=${escaped_args}"
+fi

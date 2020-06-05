@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+## autocomplete for ~/.zshrc
+# _cmpl_redpill() {
+#     reply=($(ls -1 ~/.config/redpill))
+# }
+# compctl -K _cmpl_redpill redpill
+
+DIR="$HOME/.config/redpill"
+helpmsg() {
+  printf "%s\n" "desc: display or create local cheatsheets"
+  printf "%s\n" "depend: coreutils sed"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [options] [file]"
+  printf "\n"
+  printf "%s\n" "options:"
+  printf "%s\n" "  -e    edit or create new [file]"
+  printf "%s\n" "  -s    search [keyword]"
+  printf "%s\n" "  -h    display this help message"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} curl"
+  printf "%s\n" "  $ ${0##*/} -e sed"
+  printf "%s\n" "  $ ${0##*/} -s awk"
+}
+if [ $# -lt 1 ]; then
+  helpmsg
+  exit 1
+elif [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+elif [ "$1" = "-e" ]; then
+  myArray=("$@")
+  for arg in "${myArray[@]:1}"; do
+    $EDITOR "$DIR/$arg"
+  done
+elif [ "$1" = "-s" ]; then
+  myArray=("$@")
+  for arg in "${myArray[@]:1}"; do
+    sed -n "/^#.*$arg/I,/^$/p" "$DIR"/*
+  done
+else
+  myArray=("$@")
+  for arg in "${myArray[@]}"; do
+    cat "$DIR/$arg"
+  done
+fi

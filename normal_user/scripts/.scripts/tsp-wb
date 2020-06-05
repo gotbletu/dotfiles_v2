@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# DESC: task-spooler queue for terminal web browser
+# DEMO: https://www.youtube.com/watch?v=wv8D8wT20ZY
+#       https://www.youtube.com/watch?v=WiP1OM7Kf10
+
+if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
+  tsp -h
+  exit 0
+else
+  TS_SOCKET=/tmp/wb tsp "$@"
+fi

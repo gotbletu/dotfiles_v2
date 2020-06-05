@@ -1,0 +1,49 @@
+# demo: https://www.youtube.com/watch?v=k3XdhVwzIlk
+# https://wiki.archlinux.org/index.php/Nano
+# http://how-to.wikia.com/wiki/How_to_use_syntax_highlighting_with_the_GNU_nano_text_editor
+
+
+# show line number ( same as nano -c file.txt )
+set const
+
+# word wrap long lines ( same as nano -$ file.txt )
+set softwrap
+
+# spell checker using aspell
+# http://wiki.excito.org/wiki/index.php/Tutorials_and_How-tos/Edit_Text_Files_with_nano
+set speller "aspell -x -c"
+
+# color syntax highlighting
+# http://askubuntu.com/questions/90013/syntax-highlighting-on-nano
+# https://github.com/craigbarnes/nanorc
+# pkm-list nano
+# ls /usr/share/nano | grep nanorc$
+include /usr/share/nano/asm.nanorc
+include /usr/share/nano/awk.nanorc
+include /usr/share/nano/c.nanorc
+include /usr/share/nano/cmake.nanorc
+include /usr/share/nano/css.nanorc
+include /usr/share/nano/debian.nanorc
+include /usr/share/nano/fortran.nanorc
+include /usr/share/nano/gentoo.nanorc
+include /usr/share/nano/groff.nanorc
+include /usr/share/nano/html.nanorc
+include /usr/share/nano/java.nanorc
+include /usr/share/nano/makefile.nanorc
+include /usr/share/nano/man.nanorc
+include /usr/share/nano/mgp.nanorc
+include /usr/share/nano/mutt.nanorc
+include /usr/share/nano/nanorc.nanorc
+include /usr/share/nano/objc.nanorc
+include /usr/share/nano/ocaml.nanorc
+include /usr/share/nano/patch.nanorc
+include /usr/share/nano/perl.nanorc
+include /usr/share/nano/php.nanorc
+include /usr/share/nano/pov.nanorc
+include /usr/share/nano/python.nanorc
+include /usr/share/nano/ruby.nanorc
+include /usr/share/nano/sh.nanorc
+include /usr/share/nano/tcl.nanorc
+include /usr/share/nano/tex.nanorc
+include /usr/share/nano/xml.nanorc
+

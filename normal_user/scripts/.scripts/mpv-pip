@@ -1,0 +1,38 @@
+#!/bin/bash
+#             _   _     _      _         
+#  __ _  ___ | |_| |__ | | ___| |_ _   _ 
+# / _` |/ _ \| __| '_ \| |/ _ \ __| | | |
+#| (_| | (_) | |_| |_) | |  __/ |_| |_| |
+# \__, |\___/ \__|_.__/|_|\___|\__|\__,_|
+# |___/                                  
+#       http://www.youtube.com/user/gotbletu
+#       https://twitter.com/gotbletu
+#       https://github.com/gotbletu
+
+# a script to copy link and add video link to mpv queue
+# just create a shortcut launcher on the panel and click on it while on the video page you want to stream to mpv
+
+# requires: task-spooler wmctrl xclip xdotool youtube-dl
+
+# browser to focus; show list using wmctrl -l
+BROWSER_FOCUS=Chromium
+# set / create save location
+# DOWNLOAD_DIR_MP3=~/Downloads/youtube_music
+# image to use
+# IMAGE_LOGO=~/.logo/youtube.png
+
+
+# focus browser on top
+wmctrl -a "$BROWSER_FOCUS"
+
+# copy link to clipboard
+sleep 0.5
+xdotool key ctrl+l
+sleep 0.5
+xdotool key ctrl+c
+
+# add to mpv queue
+tsp mpv --ontop --no-border --force-window --autofit=500x280 --geometry=-15-50 "$(xclip -selection clipboard -o | cut -d\& -f1)"
+
+# notification
+notify-send -i "$IMAGE_LOGO" 'Video Queue' 'Adding Video to Queue List !!!' -t 5000

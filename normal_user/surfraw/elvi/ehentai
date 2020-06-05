@@ -1,0 +1,26 @@
+#!/bin/sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+#
+# DATE: Sun Feb 07, 2016
+#
+# DESC: Elvi to search e-hentai
+# elvis: ehentai		-- Search e-hentai for hentai mangas (http://g.e-hentai.org/)
+. surfraw || exit 1
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search words]...
+Description:
+  Search ehentai (http://g.e-hentai.org/) for hentai mangas
+EOF
+    w3_global_usage
+}
+
+w3_config
+w3_parse_args "$@"
+if test -z "$w3_args"; then
+    w3_browse_url "http://g.e-hentai.org/"
+else
+    escaped_args=`w3_url_of_arg $w3_args`
+    w3_browse_url "http://g.e-hentai.org/?f_doujinshi=1&f_manga=1&f_artistcg=1&f_gamecg=1&f_western=1&f_non-h=1&f_imageset=1&f_cosplay=1&f_asianporn=1&f_misc=1&f_search=${escaped_args}&f_apply=Apply+Filter"
+fi

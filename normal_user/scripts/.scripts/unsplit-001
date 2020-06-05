@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+helpmsg() {
+  printf "%s\n" "desc: join/merge splitted .001 .002 files (e.g file.avi.001 file.avi.002)"
+  printf "%s\n" "depend: lxsplit"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [file]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} file.avi.001"
+}
+if [ $# -lt 1 ]; then
+  helpmsg
+  exit 1
+elif [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  lxsplit -j "$1"
+fi

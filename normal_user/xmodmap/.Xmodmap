@@ -1,0 +1,24 @@
+!!!!! Change Capslock key to Hyper key !!!!!
+! This add an additional Modifier key
+! Source: http://unix.stackexchange.com/a/151046
+! What is the Hyper key? http://askubuntu.com/a/19565
+! To load xmodmap config:
+! $ xmodmap ~/.Xmodmap
+! To reset keyboard to default:
+! $ setxkbmap -layout us
+
+! Unmap capslock
+clear Lock
+keycode 66 = Hyper_L
+
+! Leave mod4 as windows key _only_
+remove mod4 = Hyper_L
+
+! Set mod3 to capslock
+add mod3 = Hyper_L
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+

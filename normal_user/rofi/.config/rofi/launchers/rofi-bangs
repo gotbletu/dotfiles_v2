@@ -1,0 +1,144 @@
+#!/usr/bin/env bash
+# author: unknown
+# sentby: MoreChannelNoise (https://www.youtube.com/user/MoreChannelNoise)
+# editby: gotbletu (https://www.youtube.com/user/gotbletu)
+
+# demo: https://www.youtube.com/watch?v=kxJClZIXSnM
+# info: this is a script to launch other rofi scripts,
+#       saves us the trouble of binding multiple hotkeys for each script,
+#       when we can just use one hotkey for everything.
+# playlist: https://www.youtube.com/playlist?list=PLqv94xWU9zZ0LVP1SEFQsLEYjZC_SUB3m
+
+declare -A LABELS
+declare -A COMMANDS
+
+###
+# List of defined 'bangs'
+
+# launch programs
+# COMMANDS["apps"]="rofi -show drun -show-icons -modi drun"
+COMMANDS["apps"]="rofi -show drun -show -modi drun"
+LABELS["apps"]=""
+
+# chromium web browser history
+COMMANDS["chromium-history"]="$HOME/.config/rofi/launchers/rofi-chromium-history"
+LABELS["chromium-history"]=""
+
+COMMANDS["cmus"]="$HOME/.config/rofi/launchers/rofi-cmus"
+LABELS["cmus"]=""
+
+COMMANDS["bookmarks"]="$HOME/.config/rofi/launchers/rofi-surfraw-bookmarks"
+LABELS["bookmarks"]=""
+
+# edit/add new bookmarks
+# COMMANDS["editbookmarks"]="$EDITORGUI $HOME/.config/surfraw/bookmarks"
+# LABELS["editbookmarks"]=""
+
+# search local files
+COMMANDS["locate"]="$HOME/.config/rofi/launchers/rofi-locate"
+LABELS["locate"]=""
+
+# run playonlinux programs
+COMMANDS["playonlinux"]="$HOME/.config/rofi/launchers/rofi-playonlinux"
+LABELS["playonlinux"]=""
+
+# text snippet
+COMMANDS["snippet"]="$HOME/.config/rofi/launchers/rofi-snippet"
+LABELS["snippet"]=""
+
+# edit/add new snippet
+# COMMANDS["editsnippet"]="$EDITORGUI $HOME/.snippetrc"
+# LABELS["editsnippet"]=""
+
+# text snippet for multisnippet (aka a block of text)
+COMMANDS["multisnippet"]="$HOME/.config/rofi/launchers/rofi-multisnippet"
+LABELS["multisnippet"]=""
+
+# edit/add new multisnippet
+# COMMANDS["editmultisnippet"]="xdg-open $HOME/.multisnippet"
+# LABELS["editmultisnippet"]=""
+
+# open custom web searches
+COMMANDS["websearch"]="$HOME/.config/rofi/launchers/rofi-surfraw-websearch"
+LABELS["websearch"]=""
+
+# greenclip clipboard history
+# source: https://github.com/erebe/greenclip
+COMMANDS["clipboard"]='rofi -modi "clipboard:greenclip print" -show clipboard'
+LABELS["clipboard"]=""
+
+COMMANDS["theme"]='rofi-theme-selector'
+LABELS["theme"]=""
+
+# show clipboard history
+# source: https://bitbucket.org/pandozer/rofi-clipboard-manager/overview
+# COMMANDS["clipboard"]='rofi -modi "clipboard:$HOME/.bin/rofi-clipboard-manager/mclip.py menu" -show clipboard && $HOME/.bin/rofi-clipboard-manager/mclip.py paste'
+# LABELS["clipboard"]=""
+
+# references --------------------------
+# COMMANDS[";sr2"]="chromium 'wikipedia.org/search-redirect.php?search=\" \${input}\""
+# LABELS[";sr2"]=""
+
+# COMMANDS[";piratebay"]="chromium --disk-cache-dir=/tmp/cache http://thepiratebay.org/search/\" \${input}\""
+# LABELS[";piratebay"]=""
+
+# COMMANDS[".bin"]="spacefm -r '/home/dka/bin'"
+# LABELS[".bin"]=".bin"
+
+# COMMANDS["#screenshot"]='/home/dka/bin/screenshot-scripts/myscreenshot.sh'
+# LABELS["#screenshot"]="screenshot"
+
+################################################################################
+# do not edit below
+################################################################################
+##
+# Generate menu
+##
+function print_menu()
+{
+    for key in ${!LABELS[@]}
+    do
+  echo "$key    ${LABELS}"
+     #   echo "$key    ${LABELS[$key]}"
+     # my top version just shows the first field in labels row, not two words side by side
+    done
+}
+##
+# Show rofi.
+##
+function start()
+{
+    # print_menu | rofi -dmenu -p "?=>" 
+    print_menu | sort | rofi -dmenu -mesg ">>> launch your collection of rofi scripts" -i -p "rofi-bangs: "
+
+}
+
+
+# Run it
+value="$(start)"
+
+# Split input.
+# grab upto first space.
+choice=${value%%\ *}
+# graph remainder, minus space.
+input=${value:$((${#choice}+1))}
+
+##
+# Cancelled? bail out
+##
+if test -z ${choice}
+then
+    exit
+fi
+
+# check if choice exists
+if test ${COMMANDS[$choice]+isset}
+then
+    # Execute the choice
+    eval echo "Executing: ${COMMANDS[$choice]}"
+    eval ${COMMANDS[$choice]}
+else
+ eval  $choice | rofi
+ # prefer my above so I can use this same script to also launch apps like geany or leafpad etc (DK) 
+ #   echo "Unknown command: ${choice}" | rofi -dmenu -p "error"
+fi

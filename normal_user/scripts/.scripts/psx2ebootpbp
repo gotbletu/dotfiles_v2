@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# DEMO:   https://youtu.be/G_9g6DxO5Q0
+# REFF:   https://psxdatacenter.com/ntsc-u_list.html
+
+helpmsg() {
+  printf "%s\n" "desc: convert psx (playstation one) games to eboot.pbp (psp compatible)"
+  printf "%s\n" "depend: coreutils gawk sed popstationr (https://github.com/pseiler/popstationr)"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [options] [iso|bin|img]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} file.bin"
+  printf "%s\n" "  $ ${0##*/} file1.bin file2.iso file3.img"
+  printf "%s\n" "  $ ${0##*/} -f *.bin"
+  printf "%s\n" "  $ ${0##*/} *.bin"
+  printf "\n"
+  printf "%s\n" "  -f, --fileonly             convert and do not create directory (for emulator only)"
+  printf "%s\n" "  -h, --help                 display this help message"
+  printf "\n"
+  printf "%s\n" "Where To Put PSX EBOOT.PBP Games On PSP?"
+  printf "%s\n" "  MemCard:/PSP/GAME/Street Fighter Alpha 3 (USA)/EBOOT.PBP"
+  # popstationr $human_readable_name $GameID $compressionlevel $image.iso
+  # popstationr 'Tony Hawks Skateboarding' SLUS00860 9 THPS1_SLUS_008.60.iso
+  # Instead of the GameID you also can use AUTO to let popstationr detect the GameID
+  # popstationr 'Tony Hawks Skateboarding' AUTO 9 THPS1_SLUS_008.60.iso
+}
+if [ $# -lt 1 ]; then
+  helpmsg
+  exit 1
+elif [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+elif [ "$1" = -f ] || [ "$1" = --filename ]; then
+  myArray=("$@")
+  PSX_LOG=/tmp/psx2ebootpbp.log
+  for arg in "${myArray[@]:1}"; do
+    popstationr "${arg%.*}" AUTO 9 "$arg" > "$PSX_LOG"
+    GAMEID_WITH_DASH="$(head -n1 "$PSX_LOG" | awk -F '[][]' '{print $2}' | sed 's/./&-/4')"  # add dash e.g SLUS-00327
+    mv EBOOT.PBP "${arg%.*} [$GAMEID_WITH_DASH].PBP"
+  done
+else
+  # compatible with PSP console (30 character foldername limit)
+  myArray=( "$@" )
+  for arg in "${myArray[@]}"; do
+    popstationr "${arg%.*}" AUTO 9 "$arg"
+    PSX_EBOOT_DIR="$(printf "%s" "${arg%.*}" | head -c 30 | awk '{$1=$1};1')" # trim dir name to 30 char only
+    mkdir "$PSX_EBOOT_DIR"
+    mv EBOOT.PBP "$PSX_EBOOT_DIR"
+  done
+fi

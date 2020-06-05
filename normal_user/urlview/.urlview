@@ -1,0 +1,9 @@
+# demo: https://www.youtube.com/watch?v=guB4WuVFhtY
+
+# set browser
+# http://does-not-exist.org/mail-archives/mutt-users/msg18479.html
+# Ctrl+w to delete word backwards
+# Ctrl+h to delete char backwards
+# COMMAND exec >> /tmp/urlview.out 2>&1; set -x; $BROWSER 
+# COMMAND exec >> /tmp/urlview.out 2>&1; set -x; ~/.scripts/urlportal.sh
+COMMAND ~/.scripts/ninjutsu/urlportal

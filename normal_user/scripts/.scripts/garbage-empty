@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+helpmsg() {
+  printf "%s\n" "desc: empty trash-can similar to gui file manager"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/}"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+elif command -v gio >/dev/null; then
+  gio trash --empty
+elif command -v gvfs-trash >/dev/null; then
+  gvfs-trash --empty
+elif command -v trash-empty >/dev/null; then
+  trash-empty
+else
+  printf "%s\n" "missing glib2, gvfs or trash-cli"
+  exit 1
+fi

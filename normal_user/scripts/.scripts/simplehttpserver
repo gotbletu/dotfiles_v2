@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# DEMO: https://www.youtube.com/watch?v=FFIjMYzkHhc
+
+MY_IP="$(ip addr | awk '/global/ {print $2}' | cut -d'/' -f1 | head -n1)"
+MY_PORT="${1:-8000}"
+helpmsg() {
+  printf "%s\n" "desc: start local server to host files in the current working directory"
+  printf "%s\n" "depend: coreutils gawk iproute2 python2 (or python3)"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [port(default 8000)]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/}"
+  printf "%s\n" "  $ ${0##*/} 1337"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+elif command -v python3 >/dev/null; then
+  printf "%s\n\n" ">>> Server will be hosted at http://$MY_IP:$MY_PORT"
+  python3 -m http.server "$MY_PORT"
+elif command -v python2 >/dev/null; then
+  printf "%s\n\n" ">>> Server will be hosted at http://$MY_IP:$MY_PORT"
+  python2 -m SimpleHTTPServer "$MY_PORT"
+else
+  printf "%s\n" "missing python2 or python3"
+  exit 1
+fi

@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+helpmsg() {
+  printf "%s\n" "desc: display external ip address"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/}"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  printf "%s\n" "Router IP: $(netstat -rn | awk 'FNR == 3 {print $2}')"
+  printf "%s\n" "Local IP: $(ip addr | awk '/global/ {print $2}' | cut -d'/' -f1 | head -n1 || ifconfig | awk '/inet/ {print $2}' | head -n1)"
+  printf "%s\n" "External IP: $(curl -s ifconfig.co || \
+    curl -s icanhazip.com || \
+    curl -s ipinfo.io/ip || \
+    curl -s checkip.amazonaws.com || \
+    curl -s smart-ip.net/myip || \
+    (curl -s pasteip.me/api/cli/ && echo) || \
+    curl -s http://checkip.dyndns.org | grep -o '[[:digit:].]\+')"
+fi

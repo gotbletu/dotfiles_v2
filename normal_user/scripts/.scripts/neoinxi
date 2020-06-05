@@ -1,0 +1,31 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+Color_Off='\e[0m'
+White='\e[0;37m'
+helpmsg() {
+  printf "%s\n" "desc: display system info"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/}"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  printf "%b\n" "${White}Users Logged On:${Color_Off} $(w -h)"
+  printf "%b\n" "${White}Date:${Color_Off} $(date)"
+  printf "%b\n" "${White}Hostname:${Color_Off} $(uname -n)"
+  printf "%b\n" "${White}Router IP:${Color_Off} $(netstat -rn | awk 'FNR == 3 {print $2}')"
+  printf "%b\n" "${White}Local IP:${Color_Off} $(ip addr | awk '/global/ {print $2}' | cut -d'/' -f1 | head -n1 || ifconfig | awk '/inet/ {print $2}' | head -n1)"
+  printf "%b\n" "${White}Shell:${Color_Off} $SHELL"
+  printf "%b\n" "${White}Kernel:${Color_Off} $(uname -r)"
+  printf "%b\n" "${White}Uptime:${Color_Off} $(uptime -p)"
+  printf "%b\n" "${White}Distro:${Color_Off} $(lsb_release -d | cut -d':' -f2 | awk '{$1=$1};1')"
+  # printf "%b\n" "${White}External IP: ${Color_Off} $(curl -s ifconfig.co || curl -s icanhazip.com || curl -s checkip.amazonaws.com || curl -s smart-ip.net/myip || curl -s pasteip.me/api/cli/ && echo || curl -s http://checkip.dyndns.org | grep -o '[[:digit:].]\+')"
+  printf "\n"
+  printf "%b\n" "${White}Memory Usage:${Color_Off}"
+  free -h
+  printf "\n"
+  printf "%b\n" "${White}Drives:${Color_Off}"
+  df -hT --total | head -n1 && df -hT --total | grep '^/' | sort
+fi

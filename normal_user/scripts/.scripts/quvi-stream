@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# DEMO:   https://www.youtube.com/watch?v=jLw64k8CoMc
+
+helpmsg() {
+  printf "%s\n" "desc: watch url video with local player"
+  printf "%s\n" "depend: quvi (mpv)"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [url]"
+}
+if [ $# -lt 1 ]; then
+  helpmsg
+  exit 1
+elif [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  [ -z "$PLAYER" ] && PLAYER=mpv
+  quvi dump "$1" -b quiet --exec "$PLAYER %u"
+fi

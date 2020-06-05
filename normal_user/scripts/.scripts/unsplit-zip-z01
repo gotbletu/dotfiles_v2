@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+helpmsg() {
+  printf "%s\n" "desc: join/merge splitted zip (e.g .zip .z01 .z02)"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [zip]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} file.zip"
+}
+if [ $# -lt 1 ]; then
+  helpmsg
+  exit 1
+elif [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  zip -s- "$1" -O "${1%.*}"-unsplited.zip
+fi

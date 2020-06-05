@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# DEMO: https://www.youtube.com/watch?v=9QxQmDx1wms
+# REFF: https://stackoverflow.com/questions/6289149/read-the-package-name-of-an-android-apk
+#     : https://stackoverflow.com/questions/8300822/android-how-to-find-which-platform-version-an-apk-targets
+#     : https://developer.android.com/guide/topics/manifest/uses-sdk-element.html#ApiLevels
+
+Color_Off='\e[0m'
+Red='\e[0;31m'
+shopt -s expand_aliases
+alias aapt="/opt/android-sdk/build-tools/28.0.3/aapt"
+
+helpmsg() {
+  printf "%s\n" "desc: display android version requirements of the apk file"
+  printf "%s\n" "depend: android-sdk-build-tools grep"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [file]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} file.apk"
+  printf "%s\n" "  $ ${0##*/} file1.apk file2.apk"
+  printf "%s\n" "  $ ${0##*/} *.apk"
+}
+if [ $# -lt 1 ]; then
+  helpmsg
+  exit 1
+elif [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  myArray=("$@")
+  for arg in "${myArray[@]}"; do
+    sdkVersion=$(aapt dump badging "$arg" | grep sdkVersion)
+    targetSdkVersion=$(aapt dump badging "$arg" | grep targetSdkVersion)
+    packageinfo=$(aapt dump badging "$arg" | grep package)
+    packagename=$(aapt dump badging "$arg" | grep application-label:)
+    printf "%b\n" "${Red}$arg${Color_Off} \n-- $packagename \n-- $packageinfo"
+    [ "$sdkVersion" = "sdkVersion:'29'" ] && printf "%s\n" "-- sdkVersion:'29' = Android 10.0 (Q)"
+    [ "$sdkVersion" = "sdkVersion:'28'" ] && printf "%s\n" "-- sdkVersion:'28' = Android 9 (P)"
+    [ "$sdkVersion" = "sdkVersion:'27'" ] && printf "%s\n" "-- sdkVersion:'27' = Android 8.1 (O_MR1)"
+    [ "$sdkVersion" = "sdkVersion:'26'" ] && printf "%s\n" "-- sdkVersion:'26' = Android 8.0 (O)"
+    [ "$sdkVersion" = "sdkVersion:'25'" ] && printf "%s\n" "-- sdkVersion:'25' = Android 7.1, 7.1.1 (N_MR1)"
+    [ "$sdkVersion" = "sdkVersion:'24'" ] && printf "%s\n" "-- sdkVersion:'24' = Android 7.0 (N)"
+    [ "$sdkVersion" = "sdkVersion:'23'" ] && printf "%s\n" "-- sdkVersion:'23' = Android 6.0 (M)"
+    [ "$sdkVersion" = "sdkVersion:'22'" ] && printf "%s\n" "-- sdkVersion:'22' = Android 5.1 (LOLLIPOP_MR1)"
+    [ "$sdkVersion" = "sdkVersion:'21'" ] && printf "%s\n" "-- sdkVersion:'21' = Android 5.0 (LOLLIPOP)"
+    [ "$sdkVersion" = "sdkVersion:'20'" ] && printf "%s\n" "-- sdkVersion:'20' = Android 4.4W (KITKAT_WATCH)"
+    [ "$sdkVersion" = "sdkVersion:'19'" ] && printf "%s\n" "-- sdkVersion:'19' = Android 4.4 (KITKAT)"
+    [ "$sdkVersion" = "sdkVersion:'18'" ] && printf "%s\n" "-- sdkVersion:'18' = Android 4.3 (JELLY_BEAN_MR2)"
+    [ "$sdkVersion" = "sdkVersion:'17'" ] && printf "%s\n" "-- sdkVersion:'17' = Android 4.2, 4.2.2 (JELLY_BEAN_MR1)"
+    [ "$sdkVersion" = "sdkVersion:'16'" ] && printf "%s\n" "-- sdkVersion:'16' = Android 4.1, 4.1.1 (JELLY_BEAN)"
+    [ "$sdkVersion" = "sdkVersion:'15'" ] && printf "%s\n" "-- sdkVersion:'15' = Android 4.0.3, 4.0.4 (ICE_CREAM_SANDWICH_MR1)"
+    [ "$sdkVersion" = "sdkVersion:'14'" ] && printf "%s\n" "-- sdkVersion:'14' = Android 4.0, 4.0.1, 4.0.2 (ICE_CREAM_SANDWICH)"
+    [ "$sdkVersion" = "sdkVersion:'13'" ] && printf "%s\n" "-- sdkVersion:'13' = Android 3.2 (HONEYCOMB_MR2)"
+    [ "$sdkVersion" = "sdkVersion:'12'" ] && printf "%s\n" "-- sdkVersion:'12' = Android 3.1.x (HONEYCOMB_MR1)"
+    [ "$sdkVersion" = "sdkVersion:'11'" ] && printf "%s\n" "-- sdkVersion:'11' = Android 3.0.x (HONEYCOMB)"
+    [ "$sdkVersion" = "sdkVersion:'10'" ] && printf "%s\n" "-- sdkVersion:'10' = Android 2.3.3, 2.3.4 (GINGERBREAD_MR1)"
+    [ "$sdkVersion" = "sdkVersion:'9'" ] && printf "%s\n" "-- sdkVersion:'9'  = Android 2.3, 2.3.1, 2.3.2 (GINGERBREAD)"
+    [ "$sdkVersion" = "sdkVersion:'8'" ] && printf "%s\n" "-- sdkVersion:'8'  = Android 2.2.x (FROYO)"
+    [ "$sdkVersion" = "sdkVersion:'7'" ] && printf "%s\n" "-- sdkVersion:'7'  = Android 2.1.x (ECLAIR_MR1)"
+    [ "$sdkVersion" = "sdkVersion:'6'" ] && printf "%s\n" "-- sdkVersion:'6'  = Android 2.0.1 (ECLAIR_0_1)"
+    [ "$sdkVersion" = "sdkVersion:'5'" ] && printf "%s\n" "-- sdkVersion:'5'  = Android 2.0 (ECLAIR)"
+    [ "$sdkVersion" = "sdkVersion:'4'" ] && printf "%s\n" "-- sdkVersion:'4'  = Android 1.6 (DONUT)"
+    [ "$sdkVersion" = "sdkVersion:'3'" ] && printf "%s\n" "-- sdkVersion:'3'  = Android 1.5 (CUPCAKE)"
+    [ "$sdkVersion" = "sdkVersion:'2'" ] && printf "%s\n" "-- sdkVersion:'2'  = Android 1.1 (BASE_1_1)"
+    [ "$sdkVersion" = "sdkVersion:'1'" ] && printf "%s\n" "-- sdkVersion:'1'  = Android 1.0 (BASE)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'29'" ] && printf "%s\n" "-- targetSdkVersion:'29' = Android 10.0 (Q)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'28'" ] && printf "%s\n" "-- targetSdkVersion:'28' = Android 9 (P)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'27'" ] && printf "%s\n" "-- targetSdkVersion:'27' = Android 8.1 (O_MR1)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'26'" ] && printf "%s\n" "-- targetSdkVersion:'26' = Android 8.0 (O)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'25'" ] && printf "%s\n" "-- targetSdkVersion:'25' = Android 7.1, 7.1.1 (N_MR1)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'24'" ] && printf "%s\n" "-- targetSdkVersion:'24' = Android 7.0 (N)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'23'" ] && printf "%s\n" "-- targetSdkVersion:'23' = Android 6.0 (M)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'22'" ] && printf "%s\n" "-- targetSdkVersion:'22' = Android 5.1 (LOLLIPOP_MR1)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'21'" ] && printf "%s\n" "-- targetSdkVersion:'21' = Android 5.0 (LOLLIPOP)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'20'" ] && printf "%s\n" "-- targetSdkVersion:'20' = Android 4.4W (KITKAT_WATCH)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'19'" ] && printf "%s\n" "-- targetSdkVersion:'19' = Android 4.4 (KITKAT)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'18'" ] && printf "%s\n" "-- targetSdkVersion:'18' = Android 4.3 (JELLY_BEAN_MR2)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'17'" ] && printf "%s\n" "-- targetSdkVersion:'17' = Android 4.2, 4.2.2 (JELLY_BEAN_MR1)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'16'" ] && printf "%s\n" "-- targetSdkVersion:'16' = Android 4.1, 4.1.1 (JELLY_BEAN)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'15'" ] && printf "%s\n" "-- targetSdkVersion:'15' = Android 4.0.3, 4.0.4 (ICE_CREAM_SANDWICH_MR1)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'14'" ] && printf "%s\n" "-- targetSdkVersion:'14' = Android 4.0, 4.0.1, 4.0.2 (ICE_CREAM_SANDWICH)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'13'" ] && printf "%s\n" "-- targetSdkVersion:'13' = Android 3.2 (HONEYCOMB_MR2)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'12'" ] && printf "%s\n" "-- targetSdkVersion:'12' = Android 3.1.x (HONEYCOMB_MR1)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'11'" ] && printf "%s\n" "-- targetSdkVersion:'11' = Android 3.0.x (HONEYCOMB)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'10'" ] && printf "%s\n" "-- targetSdkVersion:'10' = Android 2.3.3, 2.3.4 (GINGERBREAD_MR1)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'9'" ] && printf "%s\n" "-- targetSdkVersion:'9'  = Android 2.3, 2.3.1, 2.3.2 (GINGERBREAD)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'8'" ] && printf "%s\n" "-- targetSdkVersion:'8'  = Android 2.2.x (FROYO)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'7'" ] && printf "%s\n" "-- targetSdkVersion:'7'  = Android 2.1.x (ECLAIR_MR1)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'6'" ] && printf "%s\n" "-- targetSdkVersion:'6'  = Android 2.0.1 (ECLAIR_0_1)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'5'" ] && printf "%s\n" "-- targetSdkVersion:'5'  = Android 2.0 (ECLAIR)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'4'" ] && printf "%s\n" "-- targetSdkVersion:'4'  = Android 1.6 (DONUT)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'3'" ] && printf "%s\n" "-- targetSdkVersion:'3'  = Android 1.5 (CUPCAKE)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'2'" ] && printf "%s\n" "-- targetSdkVersion:'2'  = Android 1.1 (BASE_1_1)"
+    [ "$targetSdkVersion" = "targetSdkVersion:'1'" ] && printf "%s\n" "-- targetSdkVersion:'1'  = Android 1.0 (BASE)"
+  done
+fi

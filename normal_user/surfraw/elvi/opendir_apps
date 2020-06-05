@@ -1,0 +1,27 @@
+#!/bin/sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+#
+# DATE: Wed October 04, 2017
+#
+# DESC: Elvi to search google for open directories apps files
+# elvis: opendir_apps	-- Search google for open directories apps files (https://www.google.com)
+. surfraw || exit 1
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search words]...
+Description:
+  Search google for open directories apps files (https://www.google.com)
+EOF
+    w3_global_usage
+}
+
+w3_config
+w3_parse_args "$@"
+if test -z "$w3_args"; then
+    # w3_browse_url "https://www.google.com"
+    w3_browse_url "https://www.google.com/search?q=%2B(.exe|.iso|.tar|.rar|.zip|.apk)+intitle:%22index%20of%22%20-inurl:(jsp|pl|php|html|aspx|htm|cf|shtml)%20-inurl:(listen77|mp3raid|mp3toss|mp3drug|index_of|wallywashis)"
+else
+    escaped_args=`w3_url_of_arg $w3_args`
+    w3_browse_url "https://www.google.com/search?q=%2B(.exe|.iso|.tar|.rar|.zip|.apk)%20+${escaped_args}%20+intitle:%22index%20of%22%20-inurl:(jsp|pl|php|html|aspx|htm|cf|shtml)%20-inurl:(listen77|mp3raid|mp3toss|mp3drug|index_of|wallywashis)"
+fi

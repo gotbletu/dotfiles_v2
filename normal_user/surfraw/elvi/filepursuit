@@ -1,0 +1,26 @@
+#!/bin/sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+#
+# DATE: Wed October 04, 2017
+#
+# DESC: Elvi to search filepursuit
+# elvis: filepursuit 	-- Search filepursuit for Open Directories files (https://filepursuit.com)
+. surfraw || exit 1
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search words]...
+Description:
+  Search filepursuit (https://filepursuit.com) for Open Directories files
+EOF
+    w3_global_usage
+}
+
+w3_config
+w3_parse_args "$@"
+if test -z "$w3_args"; then
+    w3_browse_url "https://filepursuit.com"
+else
+    escaped_args=`w3_url_of_arg $w3_args`
+    w3_browse_url "https://filepursuit.com/search/${escaped_args}"
+fi

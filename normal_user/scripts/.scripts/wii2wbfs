@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# DEMO:   https://www.youtube.com/watch?v=_vcdofAUcPI
+# REFF:   https://gist.github.com/openback/1138763
+#         https://sourceforge.net/projects/usbloadergx/
+#         http://wit.wiimm.de/
+
+helpmsg() {
+  printf "%s\n" "desc: convert nintendo wii iso to wbfs (auto split file at 4GB)"
+  printf "%s\n" "depend: coreutils gawk wit"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [options] [file]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} wiisports.iso"
+  printf "%s\n" "  $ ${0##*/} skywardsword.iso mariogalaxy.iso smashbrawl.iso"
+  printf "%s\n" "  $ ${0##*/} -c unknownwii.iso"
+  printf "%s\n" "  $ ${0##*/} *.iso"
+  printf "\n"
+  printf "%s\n" "options:"
+  printf "%s\n" "  -c, --content              convert and get title from rom content"
+  printf "%s\n" "  -h, --help                 display this help message"
+  printf "\n"
+  printf "%s\n" "USBLoaderGX Uses These Paths:"
+  printf "%s\n" "  USB:/wbfs/Name Of Game [GameID]/GameID.wbfs"
+  printf "%s\n" "  USB:/wbfs/Donkey Kong Country Returns (USA) [SF8E01]/SF8E01.wbfs"
+  printf "\n"
+  printf "%s\n" "Split Wii Game Example:"
+  printf "%s\n" "  USB:/wbfs/Super Smash Bros Brawl (NTSC) [RSBE01]/RSBE01.wbf1"
+  printf "%s\n" "  USB:/wbfs/Super Smash Bros Brawl (NTSC) [RSBE01]/RSBE01.wbf2"
+  printf "%s\n" "  USB:/wbfs/Super Smash Bros Brawl (NTSC) [RSBE01]/RSBE01.wbfs"
+}
+if [ $# -lt 1 ]; then
+  helpmsg
+  exit 1
+elif [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+elif [ "$1" = -c ] || [ "$1" = --content ]; then
+  myArray=("$@")
+  for arg in "${myArray[@]:1}"; do
+    FILENAME="${arg%.*}"
+    REGION=$(wit lll -H "$arg" | awk '{print $4}')
+    GAMEID=$(wit lll -H "$arg" | awk '{print $1}')
+    TITLE=$(wit lll -H "$arg" | awk '{ print substr($0, index($0,$5)) }' | awk '{$1=$1};1' )
+    DIR_TITLENAME="$TITLE ($REGION) [$GAMEID]"
+    ## create proper folder structure base on title inside the rom, scrub image & convert to wbfs, auto split at 4GB a piece
+    mkdir -pv "$DIR_TITLENAME"
+    wit copy --wbfs --split "$arg" "$DIR_TITLENAME/$GAMEID.wbfs"
+  done
+else
+  myArray=("$@")
+  for arg in "${myArray[@]}"; do
+    FILENAME="${arg%.*}"
+    REGION=$(wit lll -H "$arg" | awk '{print $4}')
+    GAMEID=$(wit lll -H "$arg" | awk '{print $1}')
+    DIR_FILENAME="$FILENAME [$GAMEID]"
+    ## create proper folder structure base on filename, scrub image & convert to wbfs, auto split at 4GB a piece
+    mkdir -pv "$DIR_FILENAME"
+    wit copy --wbfs --split "$arg" "$DIR_FILENAME/$GAMEID.wbfs"
+  done
+fi

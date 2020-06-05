@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# DEMO:   https://www.youtube.com/watch?v=jLw64k8CoMc
+
+helpmsg() {
+  printf "%s\n" "desc: media downloader similar to youtube-dl"
+  printf "%s\n" "depend: quvi"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [url]"
+}
+if [ $# -lt 1 ]; then
+  helpmsg
+  exit 1
+elif [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  quvi get "$1"
+fi

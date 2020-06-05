@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+helpmsg() {
+  printf "%s\n" "desc: get file mimetype of a file (e.g application/zip)"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [file]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} file.mp3"
+  printf "%s\n" "  $ ${0##*/} file1.png file2.mp3 file3.mkv"
+  printf "%s\n" "  $ ${0##*/} *"
+}
+if [ $# -lt 1 ]; then
+  helpmsg
+  exit 1
+elif [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  myArray=("$@")
+  for arg in "${myArray[@]}"; do
+    printf "%s\n" "$(file --mime-type -b "$arg") ---- $arg"
+  done
+fi

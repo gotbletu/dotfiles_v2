@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+
+if [ "$W3M_SETTING_MODE" = "xsession" ]; then
+  # open settings options
+  xdotool type "$W3M_HOTKEY_OPTIONS"
+  # jump to user agent
+  xdotool type "155$W3M_HOTKEY_LINK_BEGIN"
+  # clear user agent string
+  xdotool key Return
+  xdotool key ctrl+u
+  xdotool key Return
+  # save changes
+  xdotool type "173$W3M_HOTKEY_LINK_BEGIN"
+  xdotool key Return
+  # refresh page
+  xdotool type "$W3M_HOTKEY_RELOAD"
+elif [ "$W3M_SETTING_MODE" = "tmux" ]; then
+  # open settings options
+  tmux send-keys "$W3M_HOTKEY_OPTIONS"
+  # jump to user agent
+  tmux send-keys "155$W3M_HOTKEY_LINK_BEGIN"
+  # clear user agent string
+  tmux send-keys 'Enter' 'C-u' 'Enter'
+  # save changes
+  tmux send-keys "173$W3M_HOTKEY_LINK_BEGIN" 'Enter'
+  # refresh page
+  tmux send-keys "$W3M_HOTKEY_RELOAD"
+fi

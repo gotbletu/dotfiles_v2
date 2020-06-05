@@ -1,0 +1,18 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+helpmsg() {
+  printf "%s\n" "desc: display local weather forecast"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [location|:help]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/}"
+  printf "%s\n" "  $ ${0##*/} london"
+  printf "%s\n" "  $ ${0##*/} :help"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  curl "http://wttr.in/$1"
+fi

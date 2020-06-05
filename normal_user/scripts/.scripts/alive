@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+helpmsg() {
+  printf "%s\n" "desc: scan for local connect machine that are awake"
+  printf "%s\n" "depend: nmap net-tools gawk"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/}"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  nmap -sn "$(netstat -rn | awk 'FNR == 3 {print $2}')/24"
+fi

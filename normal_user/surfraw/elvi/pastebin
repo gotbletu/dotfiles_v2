@@ -1,0 +1,26 @@
+#!/bin/sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+#
+# DATE: Sat Feb 16 2013
+#
+# DESC: Elvi to search Pastebin
+# elvis: pastebin	-- Search Pastebin for text files paste dump (www.pastebin.com)
+. surfraw || exit 1
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search words]...
+Description:
+  Search Pastebin (www.pastebin.com) for text files paste dump
+EOF
+    w3_global_usage
+}
+
+w3_config
+w3_parse_args "$@"
+if test -z "$w3_args"; then
+    w3_browse_url "https://www.pastebin.com"
+else
+    escaped_args=`w3_url_of_arg $w3_args`
+    w3_browse_url "http://pastebin.com/search?cx=partner-pub-7089230323117142%3A2864958357&cof=FORID%3A10&ie=UTF-8&q=${escaped_args}"
+fi

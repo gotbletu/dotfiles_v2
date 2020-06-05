@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# DEPEND: binmerge (https://github.com/putnam/binmerge)
+# DEMO: https://youtu.be/eJOO5tpWZU0
+
+DIR=BINMERGE_OUT
+helpmsg() {
+  printf "%s\n" "desc: join/merge multiple tracks psx bin/cue file into a single bin/cue (e.g playstation 1 Redump)"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [cuefile]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} file.cue"
+  printf "%s\n" "  $ ${0##*/} file1.cue file2.cue file3.cue"
+  printf "%s\n" "  $ ${0##*/} *.cue"
+}
+if [ $# -lt 1 ]; then
+  helpmsg
+  exit 1
+elif [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  mkdir -p "$DIR"
+  myArray=("$@")
+  for arg in "${myArray[@]}"; do
+    binmerge -o "$DIR" "$arg" "${arg%.*}"
+  done
+fi

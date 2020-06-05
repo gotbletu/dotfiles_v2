@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# LICENSE: GNU General Public License, version 3 (GPLv3)
+# DEMO: https://www.youtube.com/watch?v=YY3hRhrUjOQ
+
+helpmsg() {
+  printf "%s\n" "desc: remove formatting from clipboard then paste text"
+  printf "%s\n" "depend: xclip xdotool"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/}"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  xclip -selection clipboard -o | xclip -selection clipboard
+  sleep 0.5
+  xdotool key ctrl+v
+  # if you are using a clipboard manager also then you can uncomment theses
+  sleep 0.5
+  killall xclip
+fi

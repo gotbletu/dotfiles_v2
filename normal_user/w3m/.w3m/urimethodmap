@@ -1,0 +1,6 @@
+magnet: file:/cgi-bin/magnet.py?%s
+google: file:/cgi-bin/surfraw.cgi?%s
+duckduckgo: file:/cgi-bin/surfraw.cgi?%s
+stack: file:/cgi-bin/surfraw.cgi?%s
+youtube: file:/cgi-bin/surfraw.cgi?%s
+urban: file:/cgi-bin/surfraw.cgi?%s

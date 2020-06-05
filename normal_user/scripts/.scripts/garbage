@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+helpmsg() {
+  printf "%s\n" "desc: put files in trash-can similar to gui file manager"
+  printf "%s\n" "usage: ${0##*/} [file|directory]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} file.mp3"
+  printf "%s\n" "  $ ${0##*/} file1.mp3 file2.pdf dir/"
+  printf "%s\n" "  $ ${0##*/} *.mp3"
+}
+if [ $# -lt 1 ]; then
+  helpmsg
+  exit 1
+elif [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+elif command -v gio >/dev/null; then
+  gio trash -f "$@"
+elif command -v gvfs-trash >/dev/null; then
+  gvfs-trash -f "$@"
+elif command -v trash-put >/dev/null; then
+  trash-put "$@"
+else
+  printf "%s\n" "missing glib2, gvfs or trash-cli"
+  exit 1
+fi

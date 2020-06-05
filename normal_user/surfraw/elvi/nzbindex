@@ -1,0 +1,26 @@
+#!/bin/sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+#
+# DATE: Thu Jan 17 2013
+#
+# DESC: Elvi to search nzbindex
+# elvis: nzbindex	-- Search nzbindex for NZB (www.nzbindex.nl)
+. surfraw || exit 1
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search words]...
+Description:
+  Search nzbindex (www.nzbindex.nl) for NZB
+EOF
+    w3_global_usage
+}
+
+w3_config
+w3_parse_args "$@"
+if test -z "$w3_args"; then
+    w3_browse_url "http://www.google.com"
+else
+    escaped_args=`w3_url_of_arg $w3_args`
+    w3_browse_url "http://www.nzbindex.nl/search/?q=${escaped_args}&age=&max=250&sort=agedesc&minsize=50&maxsize=&dq=&poster=&nfo=&hidecross=1&complete=1&hidespam=0&hidespam=1&more=1"
+fi

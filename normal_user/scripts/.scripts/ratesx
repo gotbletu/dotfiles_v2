@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+helpmsg() {
+  printf "%s\n" "desc: display current cryptocurrency exchange rate"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [currency_name]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/}"
+  printf "%s\n" "  $ ${0##*/} btc"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  curl http://rate.sx/"$1"
+fi

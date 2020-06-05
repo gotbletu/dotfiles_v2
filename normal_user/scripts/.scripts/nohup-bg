@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+helpmsg() {
+  printf "%s\n" "desc: run a command and keep it running in the background"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [command]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} bashscript.sh"
+  printf "%s\n" "  $ ${0##*/} wget http://example.com/linux.iso"
+}
+if [ $# -lt 1 ]; then
+  helpmsg
+  exit 1
+elif [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  nohup "$@" 2>/dev/null &
+fi

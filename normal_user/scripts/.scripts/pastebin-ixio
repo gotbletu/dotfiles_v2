@@ -1,0 +1,32 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+helpmsg() {
+  printf "%s\n" "desc: dump your pastebin online (http://ix.io/)"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [txtfile]"
+  printf "%s\n" "       command | ${0##*/}"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} file.txt"
+  printf "%s\n" "  $ echo hello world | ${0##*/}"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+elif [ $# -eq 1 ]; then
+  LINK=$( curl -F 'f:1=<-' ix.io < "$1" )
+else
+  LINK=$( curl -F 'f:1=<-' ix.io )
+fi
+
+# print url to shell
+printf "%s\n" "URL: $LINK"
+
+# copy to TMUX clipboard
+pidof tmux >/dev/null && tmux set-buffer "$LINK" && printf "%s\n" ">>> URL has been copied to tmux clipboard $LINK"
+
+# copy to X11 clipboard
+[ -x "$(command -v xclip)" ] && printf "%s\n" "$LINK" | xclip -selection clipboard && printf "%s\n" ">>> URL has been copied to xclip clipboard $LINK"
+
+# copy to MacOS clipboard
+[ -x "$(command -v pbcopy)" ] && printf "%s\n" "$LINK" | pbcopy && printf "%s\n" ">>> URL has been copied to macos clipboard $LINK"

@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+helpmsg() {
+  printf "%s\n" "desc: copy text to tmux clipboard"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} < [txtfile]"
+  printf "%s\n" "       ${0##*/} [string]"
+  printf "%s\n" "       command | ${0##*/}"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} < file.txt"
+  printf "%s\n" "  $ ${0##*/} 'gotbletu was here'"
+  printf "%s\n" "  $ echo helloworld | ${0##*/}"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+elif [ $# -ge 1 ]; then
+  tmux set-buffer "$@"
+else
+  tmux load-buffer -
+fi

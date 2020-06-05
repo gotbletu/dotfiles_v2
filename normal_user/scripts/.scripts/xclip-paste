@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# LICENSE: GNU General Public License, version 3 (GPLv3)
+# DEMO: http://www.youtube.com/watch?v=fKP0FLp3uW0
+
+helpmsg() {
+  printf "%s\n" "desc: paste from X11 clipboard (similar to ctrl+v in gui)"
+  printf "%s\n" "depend: xclip"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/}"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  xclip -selection clipboard -o
+fi

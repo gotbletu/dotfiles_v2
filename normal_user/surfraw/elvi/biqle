@@ -1,0 +1,26 @@
+#!/bin/sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+#
+# DATE: Tue Nov 06 2012
+#
+# DESC: Elvi to search Biqle
+# elvis: biqle		-- Search Biqle for adult videos (https://biqle.ru)
+. surfraw || exit 1
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search words]...
+Description:
+  Search Biqle (https://biqle.ru) for videos
+EOF
+    w3_global_usage
+}
+
+w3_config
+w3_parse_args "$@"
+if test -z "$w3_args"; then
+    w3_browse_url "https://biqle.ru"
+else
+    escaped_args=`w3_url_of_arg $w3_args`
+    w3_browse_url "https://biqle.ru/video/${escaped_args}"
+fi

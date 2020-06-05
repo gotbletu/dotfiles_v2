@@ -1,0 +1,26 @@
+#!/bin/sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+#
+# DATE: Tue January 10, 2017
+#
+# DESC: Elvi to search rutracker
+# elvis: rutracker 	-- Search rutracker for russian torrents (https://rutracker.org)
+. surfraw || exit 1
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search words]...
+Description:
+  Search rutracker (https://rutracker.org) for russian torrents
+EOF
+    w3_global_usage
+}
+
+w3_config
+w3_parse_args "$@"
+if test -z "$w3_args"; then
+    w3_browse_url "https://rutracker.org"
+else
+    escaped_args=`w3_url_of_arg $w3_args`
+    w3_browse_url "https://rutracker.org/forum/search_cse.php?cx=014434608714260776013%3Aggcq1kovlga&cof=FORID%3A9&ie=utf-8&q=${escaped_args}"
+fi

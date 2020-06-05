@@ -1,0 +1,820 @@
+#__        _______ __  __   _  __                                
+#\ \      / /___ /|  \/  | | |/ /___ _   _ _ __ ___   __ _ _ __  
+# \ \ /\ / /  |_ \| |\/| | | ' // _ \ | | | '_ ` _ \ / _` | '_ \ 
+#  \ V  V /  ___) | |  | | | . \  __/ |_| | | | | | | (_| | |_) |
+#   \_/\_/  |____/|_|  |_| |_|\_\___|\__, |_| |_| |_|\__,_| .__/ 
+#                                    |___/                |_|    
+
+# Default w3m keymap {{{
+# A sample of ~/.w3m/keymap (default)
+#
+# Ctrl  : C-, ^
+# Escape: ESC-, M-, ^[
+# Enter : C-j
+# Space : SPC, ' '
+# Tab   : TAB, ^i, ^I, C-i
+# Delete: DEL, ^?
+# Up    : UP, ^[[A
+# Down  : DOWN, ^[[B
+# Right : RIGHT, ^[[C
+# Left  : LEFT, ^[[D
+
+# keymap	C-@	MARK
+# keymap	C-a	LINE_BEGIN
+# keymap	C-b	MOVE_LEFT
+# keymap	C-e	LINE_END
+# keymap	C-f	MOVE_RIGHT
+# keymap	C-g	LINE_INFO
+# keymap	C-h	HISTORY
+# keymap	TAB	NEXT_LINK
+# keymap	C-j	GOTO_LINK
+# keymap	C-k	COOKIE
+# keymap	C-l	REDRAW
+# keymap	C-m	GOTO_LINK
+# keymap	C-n	MOVE_DOWN
+# keymap	C-p	MOVE_UP
+# keymap	C-q	CLOSE_TAB
+# keymap	C-r	ISEARCH_BACK
+# keymap	C-s	ISEARCH
+# keymap	C-t	TAB_LINK
+# keymap	C-u	PREV_LINK
+# keymap	C-v	NEXT_PAGE
+# keymap	C-w	WRAP_TOGGLE
+# keymap	C-z	SUSPEND
+#
+# keymap	SPC	NEXT_PAGE
+# keymap	!	SHELL
+# keymap	\"	REG_MARK
+# keymap	#	PIPE_SHELL
+# keymap	$	LINE_END
+# keymap	(	UNDO
+# keymap	)	REDO
+# keymap	+	NEXT_PAGE
+# keymap	,	LEFT
+# keymap	-	PREV_PAGE
+# keymap	.	RIGHT
+# keymap	/	SEARCH
+# keymap	:	MARK_URL
+# keymap	";"	MARK_WORD
+# keymap	<	SHIFT_LEFT
+# keymap	=	INFO
+# keymap	>	SHIFT_RIGHT
+# keymap	?	SEARCH_BACK
+# keymap	@	READ_SHELL
+# keymap	B	BACK
+# keymap	D	DOWNLOAD_LIST
+# keymap	E	EDIT
+# keymap	F	FRAME
+# keymap	G	END
+# keymap	H	HELP
+# keymap	I	VIEW_IMAGE
+# keymap	J	UP
+# keymap	K	DOWN
+# keymap	L	LIST
+# keymap	M	EXTERN
+# keymap	N	SEARCH_PREV
+# keymap	Q	EXIT
+# keymap	R	RELOAD
+keymap	S	SAVE_SCREEN
+# keymap	T	NEW_TAB
+# keymap	U	GOTO
+# keymap	V	LOAD
+# keymap	W	PREV_WORD
+# keymap	Z	CENTER_H
+# keymap	[	LINK_BEGIN
+# keymap	]	LINK_END
+# keymap	\^	LINE_BEGIN
+# keymap	a	SAVE_LINK
+# keymap	b	PREV_PAGE
+# keymap	c	PEEK
+# keymap	g	BEGIN
+# keymap	h	MOVE_LEFT
+# keymap	i	PEEK_IMG
+# keymap	j	MOVE_DOWN
+# keymap	k	MOVE_UP
+# keymap	l	MOVE_RIGHT
+# keymap	m	MOUSE_TOGGLE
+# keymap	n	SEARCH_NEXT
+# keymap	o	OPTIONS
+# keymap	q	QUIT
+# keymap	r	VERSION
+# keymap	s	SELECT_MENU
+# keymap	u	PEEK_LINK
+# keymap	v	VIEW
+# keymap	w	NEXT_WORD
+# keymap	z	CENTER_V
+# keymap	{	PREV_TAB
+# keymap	|	PIPE_BUF
+# keymap	}	NEXT_TAB
+#
+# keymap	M-TAB	PREV_LINK
+keymap	M-C-j	SAVE_LINK
+keymap	M-C-m	SAVE_LINK
+#
+# keymap	M-:	MARK_MID
+# keymap	M-<	BEGIN
+# keymap	M->	END
+# keymap	M-I	SAVE_IMAGE
+# keymap	M-M	EXTERN_LINK
+# keymap	M-W	DICT_WORD_AT
+# keymap	M-a	ADD_BOOKMARK
+# keymap	M-b	BOOKMARK
+# keymap	M-c	COMMAND
+# keymap	M-e	EDIT_SCREEN
+keymap	xe	EDIT_SCREEN
+# keymap	M-g	GOTO_LINE
+# keymap	M-k	DEFINE_KEY
+# keymap	M-l	LIST_MENU
+# keymap	M-m	MOVE_LIST_MENU
+# keymap	M-n	NEXT_MARK
+# keymap	M-o	SET_OPTION
+# keymap	M-p	PREV_MARK
+# keymap	M-s	SAVE
+# keymap	M-t	TAB_MENU
+# keymap	M-u	GOTO_RELATIVE
+# keymap	M-v	PREV_PAGE
+# keymap	M-w	DICT_WORD
+#
+# keymap	UP	MOVE_UP
+# keymap	DOWN	MOVE_DOWN
+# keymap	RIGHT	MOVE_RIGHT
+# keymap	LEFT	MOVE_LEFT
+#
+# keymap	M-[E	MENU
+# keymap	M-[L	MENU
+# keymap	M-[Z	PREV_LINK
+#
+# keymap	M-[1~	BEGIN
+# keymap	M-[2~	MENU
+# keymap	M-[4~	END
+# keymap	M-[5~	PREV_PAGE
+# keymap	M-[6~	NEXT_PAGE
+# keymap	M-[28~	MENU
+# }}}
+# Set default keymap to	NULL {{{
+########## invalidate defaults ##########
+keymap  K	NULL
+keymap  J	NULL
+keymap  SPC	NULL
+keymap  -	NULL
+keymap  +	NULL
+keymap  C-v	NULL
+keymap  ESC-v	NULL
+keymap  C-f	NULL
+keymap  C-b	NULL
+keymap  C-n	NULL
+keymap  C-p	NULL
+keymap  <	NULL
+keymap  >	NULL
+keymap  .	NULL
+keymap  ,	NULL
+keymap  ^	NULL
+keymap  C-a	NULL
+keymap  W	NULL
+keymap  ^[[6~	NULL
+keymap  ^[[5~	NULL
+keymap  g	NULL
+keymap  ^[[1~	NULL
+keymap  ^[[4~	NULL
+keymap  ESC-<	NULL
+keymap  ESC->	NULL
+keymap  [	NULL
+keymap  ]	NULL
+keymap  ^[[Z	NULL
+keymap  ESC-m	NULL
+keymap  (	NULL
+keymap  )	NULL
+keymap  C-j	NULL
+keymap  C-m	NULL
+keymap  ESC-C-j	NULL
+keymap  ESC-C-m	NULL
+keymap  ESC-w	NULL
+keymap  ESC-W	NULL
+keymap  C-s	NULL
+keymap  =	NULL
+keymap  ESC-l	NULL
+keymap  U	NULL
+keymap  V	NULL
+keymap  v	NULL
+keymap  R	NULL
+keymap  ESC-s	NULL
+keymap  :	NULL
+keymap  C-q	NULL
+keymap  T	NULL
+keymap  }	NULL
+keymap  {	NULL
+keymap  ESC-a	NULL
+keymap  ESC-b	NULL
+keymap  c	NULL
+keymap  ESC-:	NULL
+keymap  C-h	NULL
+keymap  q	NULL
+keymap  Q	NULL
+keymap  C-w	NULL
+keymap  C-d	NULL
+keymap  C-u	NULL
+keymap  RIGHT	NULL
+keymap  l	NULL
+keymap  LEFT	NULL
+keymap  h	NULL
+keymap  j	NULL
+keymap  DOWN	NULL
+keymap  k	NULL
+keymap  UP	NULL
+keymap  C-e	NULL
+keymap  C-y	NULL
+keymap  0	NULL
+keymap  $	NULL
+keymap  Z	NULL
+keymap  z	NULL
+keymap  ESC-g	NULL
+keymap  gg	NULL
+keymap  G	NULL
+keymap  w	NULL
+keymap  b	NULL
+keymap  C-n	NULL
+keymap  C-p	NULL
+keymap  ESC-TAB	NULL
+keymap  f	NULL
+keymap  C-o	NULL
+keymap  TAB	NULL
+keymap  C-j	NULL
+keymap  C-]	NULL
+keymap  I	NULL
+keymap  ESC-I	NULL
+keymap  ESC-C-j	NULL
+keymap  y	NULL
+keymap  u	NULL
+keymap  i	NULL
+keymap  gC-g	NULL
+keymap  C-g	NULL
+keymap  ";"	NULL
+keymap  M	NULL
+keymap  ESC-M	NULL
+keymap  F	NULL
+keymap  ESC-u	NULL
+keymap  t	NULL
+keymap  @	NULL
+keymap  "#"	NULL
+keymap  |	NULL
+keymap  B	NULL
+keymap  L	NULL
+keymap  H	NULL
+keymap  s	NULL
+keymap  gf	NULL
+keymap  S	NULL
+keymap  E	NULL
+keymap  ESC-e	NULL
+keymap  C-r	NULL
+keymap  r	NULL
+keymap  C-l	NULL
+keymap  C-t	NULL
+keymap  d	NULL
+keymap  gt	NULL
+keymap  gT	NULL
+keymap  ESC-t	NULL
+keymap  C-wL	NULL
+keymap  C-wH	NULL
+keymap  a	NULL
+keymap  n	NULL
+keymap  N	NULL
+keymap  /	NULL
+keymap  ?	NULL
+keymap  C-@	NULL
+keymap  ESC-n	NULL
+keymap  ESC-p	NULL
+keymap  \"	NULL
+keymap  ^[[2~	NULL
+keymap  ^[[28~	NULL
+keymap  ^[[E	NULL
+keymap  ^[[L	NULL
+keymap  o	NULL
+keymap  C-k	NULL
+keymap  D	NULL
+keymap  m	NULL
+keymap  ESC-c	NULL
+keymap  ESC-o	NULL
+keymap  ESC-k	NULL
+keymap  \\	NULL
+keymap  !	NULL
+#keymap C-z	NULL
+keymap  ZZ	NULL
+keymap  ZQ	NULL
+keymap	M-C-j	NULL
+# }}}
+# Vim Hotkeys {{{
+# references: http://d.hatena.ne.jp/eiiches/20100531/
+#             https://github.com/davidhalter/dotfiles/blob/master/.w3m/keymap
+# In-page Navigation {{{
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+# https://github.com/tats/w3m/blob/master/doc/README.func
+# Half Page Down / Up
+keymap  C-d     NEXT_HALF_PAGE
+keymap  C-u     PREV_HALF_PAGE
+# keymap  C-j     MOVE_DOWN1  ;; C-j = Enter key, can not use
+
+############################ Scroll down one page (NEXT_PAGE) [Page Down]
+keymap  C-f     NEXT_PAGE
+keymap	SPC     NEXT_PAGE
+############################ Scroll up one page (PREV_PAGE) [Page Up]
+keymap  C-b     PREV_PAGE
+############################ Cursor right (MOVE_RIGHT)
+keymap  C-l     MOVE_RIGHT
+keymap  l       MOVE_RIGHT
+keymap  RIGHT   MOVE_RIGHT
+############################ Cursor left (MOVE_LEFT)
+keymap  h       MOVE_LEFT
+keymap  LEFT    MOVE_LEFT
+keymap  C-h     MOVE_LEFT
+############################ Cursor down (MOVE_DOWN)
+#   12:<NOT        Cursor down (MOVE_DOWN)
+#   13:ASSIGNED>
+
+############################ Cursor up (MOVE_UP)
+#   14:<NOT        Cursor up (MOVE_UP)
+#   15:ASSIGNED>
+############################ Cursor right. With edge touched, slide (MOVE_RIGHT1)
+#   16:<NOT        Cursor right. With edge touched, slide (MOVE_RIGHT1)
+#   17:ASSIGNED>
+############################ Cursor left. With edge touched, slide (MOVE_LEFT1)
+#   18:<NOT        Cursor left. With edge touched, slide (MOVE_LEFT1)
+#   19:ASSIGNED>
+############################ Cursor down. With edge touched, slide (MOVE_DOWN1)
+keymap  DOWN    MOVE_DOWN1
+keymap  j       MOVE_DOWN1
+############################ Cursor up. With edge touched, slide (MOVE_UP1)
+keymap  k       MOVE_UP1
+keymap  UP      MOVE_UP1
+############################ Scroll the screen down one line (DOWN)
+keymap  C-e     DOWN
+############################ Scroll the screen up one line (UP)
+keymap  C-y     UP
+############################ Shift screen left (SHIFT_LEFT)
+#   24:<NOT        Shift screen left (SHIFT_LEFT)
+#   25:ASSIGNED>
+############################ Shift screen right (SHIFT_RIGHT)
+#   26:<NOT        Shift screen right (SHIFT_RIGHT)
+#   27:ASSIGNED>
+############################ Shift screen one column left (LEFT)
+#   28:<NOT        Shift screen one column left (LEFT)
+#   29:ASSIGNED>
+############################ Shift screen one column right (RIGHT)
+#   30:<NOT        Shift screen one column right (RIGHT)
+#   31:ASSIGNED>
+############################ Go to the beginning of the line (LINE_BEGIN)
+keymap  0       LINE_BEGIN
+############################ Go to the end of the line (LINE_END)
+keymap  $       LINE_END
+############################ Center on cursor column (CENTER_H)
+keymap  zh      CENTER_H
+############################ Center on cursor line (CENTER_V)
+keymap  zz      CENTER_V
+############################ Go to the specified line (GOTO_LINE)
+keymap  gg      GOTO_LINE
+############################ Go to the first line (BEGIN)
+keymap  gg      BEGIN
+############################ Go to the last line (END)
+keymap  G       END
+############################ Move to the next word (NEXT_WORD)
+keymap  w       NEXT_WORD
+############################ Move to the previous word (PREV_WORD)
+keymap  b       PREV_WORD
+############################ Move to the first hyperlink (LINK_BEGIN)
+keymap	f	LINK_BEGIN
+############################ Move to the last hyperlink (LINK_END)
+  # 44:<NOT        Move to the last hyperlink (LINK_END)
+  # 45:ASSIGNED>
+############################ Move to the next hyperlink (NEXT_LINK)
+keymap  TAB     NEXT_LINK
+keymap  C-n     NEXT_LINK
+############################ Move to the previous hyperlink (PREV_LINK)
+keymap  M-[Z    PREV_LINK
+keymap  C-p     PREV_LINK
+############################ Pop up menu to navigate between hyperlinks (MOVE_LIST_MENU)
+keymap  gf      MOVE_LIST_MENU
+############################ Move right to the next hyperlink (NEXT_RIGHT)
+  # 50:<NOT        Move right to the next hyperlink (NEXT_RIGHT)
+  # 51:ASSIGNED>
+############################ Move left to the next hyperlink (NEXT_LEFT)
+  # 52:<NOT        Move left to the next hyperlink (NEXT_LEFT)
+  # 53:ASSIGNED>
+############################ Move downward to the next hyperlink (NEXT_DOWN)
+  # 54:<NOT        Move downward to the next hyperlink (NEXT_DOWN)
+  # 55:ASSIGNED>
+############################ Move upward to the next hyperlink (NEXT_UP)
+  # 56:<NOT        Move upward to the next hyperlink (NEXT_UP)
+  # 57:ASSIGNED>
+############################ Move right or downward to the next hyperlink (NEXT_RIGHT_DOWN)
+  # 58:<NOT        Move right or downward to the next hyperlink (NEXT_RIGHT_DOWN)
+  # 59:ASSIGNED>
+############################ Move left or upward to the next hyperlink (NEXT_LEFT_UP)
+  # 60:<NOT        Move left or upward to the next hyperlink (NEXT_LEFT_UP)
+  # 61:ASSIGNED>
+############################ Cancel the last cursor movement (UNDO)
+keymap  C-o     UNDO
+############################ Cancel the last undo (REDO)
+# Note: C-i is TAB, already in use
+# keymap  C-i     REDO
+  # 63:<NOT        Cancel the last undo (REDO)
+  # 64:ASSIGNED>
+# }}}
+# Hyperlink Operations {{{
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# Follow current hyperlink in a new buffer (GOTO_LINK)
+# C-j (aka 'Enter' key) to open current link; note: Ctrl-Shift-J doesnt work as a different hotkey
+keymap	C-j     GOTO_LINK
+############################ Follow current hyperlink in a new tab (TAB_LINK)
+keymap  F       TAB_LINK
+############################ Save hyperlink target (SAVE_LINK)
+  # 70:<NOT       Save hyperlink target (SAVE_LINK)
+  # 71:ASSIGNED>
+############################ Display image in viewer (VIEW_IMAGE)
+# only works with inline images
+keymap	i       VIEW_IMAGE
+############################ Save inline image (SAVE_IMAGE)
+# where does it save to?
+# keymap	M-I	SAVE_IMAGE
+############################ Submit form (SUBMIT)
+keymap  ESC-C-j SUBMIT
+############################ Show current address (PEEK)
+keymap  pk      PEEK
+############################ Show target address (PEEK_LINK)
+keymap  pl      PEEK_LINK
+############################ Show image address (PEEK_IMG)
+keymap  pi      PEEK_IMG
+############################ Display information about the current document (INFO)
+keymap  gi      INFO
+############################ Display current position in document (LINE_INFO)
+keymap  C-g     LINE_INFO
+############################ Turn URL-like strings into hyperlinks (MARK_URL)
+keymap	";"     MARK_URL
+############################ Turn current word into hyperlink (MARK_WORD)
+keymap	,       MARK_WORD
+############################ Turn Message-ID-like strings into hyperlinks (MARK_MID)
+  # 86:<NOT       Turn Message-ID-like strings into hyperlinks (MARK_MID)
+  # 87:ASSIGNED>
+############################ Toggle rendering HTML frames (FRAME)
+  # 88:<NOT       Toggle rendering HTML frames (FRAME)
+  # 89:ASSIGNED>
+############################ Display using an external browser (EXTERN)
+# open current url (default: Shift+M); e.g 2+Shift+M
+keymap  ]       EXTERN
+############################ Display target using an external browser (EXTERN_LINK)
+# open url under cursor (default: Esc+Shift+M); e.g 2+Esc+Shift+M
+keymap  e       EXTERN_LINK ~/.scripts/ninjutsu/urlportal
+
+############################ Show all URLs referenced (LIST)
+keymap  gl      LIST
+############################ Pop up menu for hyperlinks to browse to (LIST_MENU)
+keymap  gF      LIST_MENU
+############################ Pop up link element menu (LINK_MENU)
+keymap  ge      LINK_MENU
+############################ Pop up accesskey menu (ACCESSKEY)
+keymap  ga      ACCESSKEY
+# }}}
+# File/Stream Operations {{{
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+############################ Open specified document in a new buffer (GOTO)
+keymap  o     GOTO
+############################ Go to relative address (GOTO_RELATIVE)
+keymap  ^o    GOTO_RELATIVE
+############################ Open specified document in a new tab (TAB_GOTO)
+keymap  O     TAB_GOTO
+############################ Open relative address in a new tab (TAB_GOTO_RELATIVE)
+keymap  gc    TAB_GOTO https://encrypted.google.com
+keymap  ^O    TAB_GOTO_RELATIVE
+############################ Open local file in a new buffer (LOAD)
+keymap  :e    LOAD
+############################ Execute shell command and display output (READ_SHELL)
+keymap  @    READ_SHELL
+############################ Execute shell command and display output (PIPE_SHELL)
+keymap  #    PIPE_SHELL
+############################ Pipe current buffer through a shell command and display output (PIPE_BUF)
+keymap  |    PIPE_BUF
+# }}}
+# Buffer Operations {{{
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+#  120:<NOT       Close current buffer and return to the one below in stack (BACK)
+#  121:ASSIGNED>
+keymap  L       NEXT
+keymap  H       PREV
+keymap  gh      SELECT_MENU
+#  125:<NOT       Display buffer-stack panel (SELECT)
+#  126:ASSIGNED>
+keymap  gv    VIEW
+keymap  :w  SAVE
+#  129::W         Save rendered document (SAVE_SCREEN)
+#  130:<NOT       Edit local source (EDIT)
+#  131:ASSIGNED>
+#  132:<NOT       Edit rendered copy of document (EDIT_SCREEN)
+#  133:ASSIGNED>
+keymap  C-r RELOAD
+keymap  r   RELOAD
+#  135:<NOT       Re-render document (RESHAPE)
+#  136:ASSIGNED>
+#  137:<NOT       Draw the screen anew (REDRAW)
+#  138:ASSIGNED>
+#  139:<NOT       Restart loading and drawing of images (DISPLAY_IMAGE)
+#  140:ASSIGNED>
+#  141:<NOT       Stop loading and drawing of images (STOP_IMAGE)
+#  142:ASSIGNED>
+# }}}
+# Tab Operations {{{
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# keymap  C-t   NEW_TAB
+# keymap  d     CLOSE_TAB
+keymap  K     NEXT_TAB
+keymap  gt    NEXT_TAB
+keymap  J     PREV_TAB
+keymap  gT    PREV_TAB
+keymap  gj    TAB_MENU
+keymap  C-wL  TAB_RIGHT
+keymap  C-wH  TAB_LEFT
+# }}}
+# Bookmark Management {{{
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+#  156:<NOT       View bookmarks (BOOKMARK)
+#  157:ASSIGNED>
+#  158:<NOT       Add current page to bookmarks (ADD_BOOKMARK)
+#  159:ASSIGNED>
+# }}}
+# Searches {{{
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+#  163:<NOT       Search forward (WHEREIS)
+#  164:ASSIGNED>
+#  165:<NOT       Search backward (SEARCH_BACK)
+#  166:ASSIGNED>
+keymap  n     SEARCH_NEXT
+keymap  N     SEARCH_PREV
+keymap  /     ISEARCH
+keymap  ?     ISEARCH_BACK
+# }}}
+# Dictionary Lookup {{{
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+#  174:<NOT       Execute dictionary command (see README.dict) (DICT_WORD)
+#  175:ASSIGNED>
+#  176:<NOT       Execute dictionary command for word at cursor (DICT_WORD_AT)
+#  177:ASSIGNED>
+# }}}
+# Mark Operations {{{
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+#  181:<NOT       Set/unset mark (MARK)
+#  182:ASSIGNED>
+#  183:<NOT       Go to the next mark (NEXT_MARK)
+#  184:ASSIGNED>
+#  185:<NOT       Go to the previous mark (PREV_MARK)
+#  186:ASSIGNED>
+#  187:<NOT       Mark all occurences of a pattern (REG_MARK)
+#  188:ASSIGNED>
+# }}}
+# Miscellaneous {{{
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+keymap  gM      MAIN_MENU
+#  192:<NOT       Pop up menu (MAIN_MENU)
+#  193:ASSIGNED>
+keymap  :H      HELP
+keymap	:O      OPTIONS
+keymap	:V      VERSION
+#  196:<NOT       Display the version of w3m (VERSION)
+#  197:ASSIGNED>
+#  198:<NOT       View cookie list (COOKIE)
+#  199:ASSIGNED>
+keymap  gH      HISTORY
+keymap  :h      HISTORY
+keymap  gd      DOWNLOAD_LIST
+#  202:ASSIGNED>
+#  203:<NOT       Change the character encoding for the current document (CHARSET)
+#  204:ASSIGNED>
+#  205:<NOT       Change the default character encoding (DEFAULT_CHARSET)
+#  206:ASSIGNED>
+#  207:<NOT       Display error messages (MSGS)
+#  208:ASSIGNED>
+keymap	m	MOUSE_TOGGLE
+keymap	W	WRAP_TOGGLE
+#  210:<NOT       Toggle wrapping mode in searches (WRAP_TOGGLE)
+#  211:ASSIGNED>
+keymap  ::      COMMAND
+#  213:<NOT       Set alarm (ALARM)
+#  214:ASSIGNED>
+#  215:<NOT       Set option (SET_OPTION)
+#  216:ASSIGNED>
+#  217:<NOT       Set environment variable (SETENV)
+#  218:ASSIGNED>
+#  219:<NOT       Define a binding between a key stroke combination and a command (DEFINE_KEY)
+#  220:ASSIGNED>
+#  221:<NOT       Reload configuration file (REINIT)
+#  222:ASSIGNED>
+#  223:!          Execute shell command and display output (SHELL)
+keymap	!     EXEC_SHELL
+#  224:C-z        Suspend w3m to background (INTERRUPT)
+keymap  :q    QUIT
+keymap  ZZ    QUIT
+keymap  ZQ    EXIT
+keymap	Q     EXIT
+# }}}
+# User-defined key bindings {{{
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+# keymap  :B      SHELL ~/.scripts/w3m_scripts_collection/w3m_copy_bookmarks_to_clipboard_via_fzf.sh
+# keymap  :b      SHELL ~/.scripts/w3m_scripts_collection/w3m_copy_bookmarks_to_tmux_clipboard_via_fzf.sh
+keymap  :b       SHELL "$EDITOR ~/.config/surfraw/bookmarks"
+keymap  :c       SHELL "$EDITOR ~/.w3m/config"
+keymap  :k       SHELL "$EDITOR ~/.w3m/keymap"
+keymap  :m       SHELL "$EDITOR ~/.w3m/mailcap"
+keymap  :u       SHELL "$EDITOR ~/.w3m/urimethodmap"
+keymap  :t       SHELL "$EDITOR ~/.w3m/RestoreTab.txt"
+
+# }}}
+# Buffer and Tab Selection Mode {{{
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+#  236:
+#  237:C-n,j      Next item
+#  238:k,C-p      Previous item
+#  239:D          Delete item
+#  240:RET        Select item
+# }}}
+# Input Line Editing Mode {{{
+# ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+#  245:
+#  246:C-f        Cursor forward
+#  247:C-b        Cursor backward
+#  248:C-h        Delete previous character
+#  249:C-d        Delete character
+#  250:C-k        Delete everything after cursor
+#  251:C-u        Delete everything before cursor
+#  252:C-a        Cursor to the beginning of the line
+#  253:C-e        Cursor to the end of the line
+#  254:C-p        Fetch the previous string from the history list
+#  255:C-n        Fetch the next string from the history list
+#  256:C-o        Edit with external editor
+#  257:SPC,TAB    Try to complete filename
+#  258:RET        Accept input line
+# }}}
+# Popup Menu Mode {{{
+#  264:SPC,RET,RIGHT  Select item
+#  265:^[[2~,^        Close menu
+#  266:[[28~,C-c
+#  267:LEFT,C-h,DEL   One selection step backward
+#  268:j,C-n,DOWN     Move to the next item
+#  269:k,UP,C-p       Move to the previous item
+#  270:K              Scroll up one item
+#  271:J              Scroll down one item
+#  272:C-a            Move to the first item
+#  273:C-e            Move to the final item
+#  274:^[[6~,C-f,C-v  Go to the next page
+#  275:^              Go to the previous page
+#  276:[[5~,ESC-v,C-b
+#  277:C-s,/          Search forward
+#  278:?,C-r          Search backward
+#  279:n              Search for the next match
+#  280:N              Search for the previous match
+#  281:C-z            Suspend
+# }}}
+
+# }}}
+# External Commands {{{
+# EXTERN_LINK = under cursor
+# EXTERN      = current page
+
+# yank url to clipboard
+# keymap  yx      EXTERN_LINK   '(echo -n %s | xsel -b)'
+keymap  yx      EXTERN_LINK   '(printf %s | xsel -b)'
+keymap  YX      EXTERN        '(printf %s | xsel -b)'
+# yank url to tmux clipboard
+keymap  yy      EXTERN_LINK   'tmux set-buffer'
+keymap  YY      EXTERN        'tmux set-buffer'
+
+# open gui browser
+keymap  xw      EXTERN_LINK   '$BROWSER'
+keymap  XW      EXTERN        '$BROWSER'
+keymap  xn      EXTERN_LINK   '$BROWSER_PRIVATE'
+keymap  XN      EXTERN        '$BROWSER_PRIVATE'
+
+# queue download file (task-spooler)
+# keymap  xd      EXTERN_LINK   'TS_SOCKET=/tmp/w3m tsp aria2c -j 1 -x 2 -c -d ~/Downloads'
+keymap  yd      EXTERN_LINK   'youtube-dl -o "~/Downloads/%(title)s.%(ext)s"'
+keymap  xd      EXTERN_LINK   'diana add'
+keymap  XD      EXTERN_LINK   'diana --pause add'
+keymap  xD      SHELL         'diana-mui'
+
+# keymap  wg      EXTERN_LINK   'TS_SOCKET=/tmp/w3m tsp wget -c -P /media/EdoTensei/Wget'
+# keymap  WG      EXTERN        'TS_SOCKET=/tmp/w3m tsp wget -c -P /media/EdoTensei/Wget'
+# keymap  wG      SHELL         'watch TS_SOCKET=/tmp/w3m'
+# keymap  wc      SHELL         'TS_SOCKET=/tmp/w3m -C'
+
+# queue external media player (task-spooler) e.g youtube, video links
+keymap  xm      EXTERN_LINK   'tsp mpv --ontop --no-border --force-window --autofit=500x280 --geometry=-15-53'
+keymap  XM      EXTERN        'tsp mpv --ontop --no-border --force-window --autofit=500x280 --geometry=-15-53'
+
+# open external image viewer
+# keymap  xi      EXTERN_LINK   'w3m -o display_image=1 -o imgdisplay=w3mimgdisplay'
+keymap  xf      EXTERN_LINK   'feh -. -x -B black -g 900x600-15+60 %s &'
+keymap  xF      EXTERN_LINK   'mpv --loop --quiet --ontop --no-border --force-window --autofit=900x600 --geometry=-15+60'
+
+# add torrent or magnetlinks
+# keymap  xt      EXTERN_LINK   'transmission-remote --add'
+keymap  xt      EXTERN_LINK   ~/.scripts/privatescripts/addtorrent-thinkcentre
+keymap  XT      EXTERN        ~/.sripts/shellscripts/torrentportal
+
+# basic task-spooler view, cat, clear
+# keymap  xs      SHELL         'watch TS_SOCKET=/tmp/w3m tsp'
+# keymap  XS      SHELL         'clear && TS_SOCKET=/tmp/w3m tsp -c'
+# keymap  xc      SHELL         'clear && TS_SOCKET=/tmp/w3m tsp -C'
+
+# keymap  xc      SHELL         'aria2c $W3M_URL'
+# keymap  xc      SHELL         'aria2c $W3M_CURRENT_LINK'
+# keymap  xc      SHELL         'aria2c $W3M_CURRENT_IMG'
+keymap  xv      SHELL         'vim $W3M_CURRENT_FORM'
+
+# W3M_CHARSET=UTF-8
+# W3M_CURRENT_COLUMN=14
+# W3M_CURRENT_FORM=
+# W3M_CURRENT_IMG=
+# W3M_CURRENT_LINE=14
+# W3M_CURRENT_LINK=https://www.youtube.com/watch?v=n3Nw8MjXWgQ
+# W3M_CURRENT_WORD=Peertube
+# W3M_FILENAME=/
+# W3M_SOURCEFILE=/home/heoyea-ant/.w3m/w3msrc15598-1.html
+# W3M_TITLE=Youtube
+# W3M_TYPE=text/html
+# W3M_URL=http://youtube.com
+
+
+# }}}
+# Scripts & CGI-BIN {{{
+
+# Source: https://github.com/felipesaa/A-vim-like-firefox-like-configuration-for-w3m
+# paste and go
+keymap  px       GOTO          /usr/lib/w3m/cgi-bin/goto_clipboard.cgi
+keymap  PX       TAB_GOTO      /usr/lib/w3m/cgi-bin/goto_clipboard.cgi
+keymap  pp       GOTO          /usr/lib/w3m/cgi-bin/goto_tmux_clipboard.cgi
+keymap  PP       TAB_GOTO      /usr/lib/w3m/cgi-bin/goto_tmux_clipboard.cgi
+# retore closed tabs
+keymap  u       TAB_GOTO      /usr/lib/w3m/cgi-bin/restore_tab.cgi
+keymap  C-T     TAB_GOTO      /usr/lib/w3m/cgi-bin/restore_tab.cgi
+# close tabs and save url link to file
+keymap  d       COMMAND       "EXTERN 'echo %s >> ~/.w3m/RestoreTab.txt' ; CLOSE_TAB"
+# keymap  C-w     COMMAND       "EXTERN 'echo %s >> ~/.w3m/RestoreTab.txt' ; CLOSE_TAB"
+# open new tab
+# keymap  C-t     TAB_GOTO      https://duckduckgo.com/lite/
+# keymap  t       TAB_GOTO      https://duckduckgo.com/lite/
+# keymap  C-t     COMMAND       "TAB_GOTO https://duckduckgo.com/lite/; NEXT_LINK; GOTO_LINK"
+# keymap  t       COMMAND       "TAB_GOTO https://duckduckgo.com/lite/; NEXT_LINK; GOTO_LINK"
+
+# }}}
+# ### OTHER {{{
+# open bookmarks (surfraw) using fzf
+keymap  xb      COMMAND       "SHELL ~/.w3m/cgi-bin/fzf_bookmarks.cgi ; GOTO /usr/lib/w3m/cgi-bin/goto_clipboard_primary.cgi"
+keymap  XB      COMMAND       "SHELL ~/.w3m/cgi-bin/fzf_bookmarks.cgi ; TAB_GOTO /usr/lib/w3m/cgi-bin/goto_clipboard_primary.cgi"
+# keymap  xb      COMMAND       "SHELL ~/.w3m/cgi-bin/fzf_bookmarks.cgi ; GOTO /usr/lib/w3m/cgi-bin/goto_clipboard.cgi"
+# keymap  XB      COMMAND       "SHELL ~/.w3m/cgi-bin/fzf_bookmarks.cgi ; TAB_GOTO /usr/lib/w3m/cgi-bin/goto_clipboard.cgi"
+# keymap  xb      COMMAND       "SHELL ~/.w3m/cgi-bin/fzf_bookmarks.cgi ; GOTO /usr/lib/w3m/cgi-bin/goto_tmux_clipboard.cgi"
+# keymap  XB      COMMAND       "SHELL ~/.w3m/cgi-bin/fzf_bookmarks.cgi ; TAB_GOTO /usr/lib/w3m/cgi-bin/goto_tmux_clipboard.cgi"
+
+# save bookmarks (surfraw)
+# keymap  xa      COMMAND       "EXTERN_LINK '(echo -n %s | xsel -b)' ; SHELL ~/.w3m/cgi-bin/save_bookmark.cgi"
+# keymap  XA      COMMAND       "EXTERN '(echo -n %s | xsel -b)' ; SHELL ~/.w3m/cgi-bin/save_bookmark.cgi"
+keymap  xa      COMMAND       "SHELL ~/.w3m/cgi-bin/save_bookmark_surfraw.cgi"
+# keymap  xa      COMMAND       "EXTERN_LINK '(echo -n %s | xsel -b)' ; SHELL ~/.w3m/cgi-bin/save_bookmark.cgi"
+# keymap  XA      COMMAND       "EXTERN '(echo -n %s | xsel -b)' ; SHELL ~/.w3m/cgi-bin/save_bookmark.cgi"
+
+keymap  xs      COMMAND       "SHELL ~/.w3m/cgi-bin/fzf_surfraw.cgi ; GOTO /usr/lib/w3m/cgi-bin/goto_clipboard_primary.cgi"
+keymap  XS      COMMAND       "SHELL ~/.w3m/cgi-bin/fzf_surfraw.cgi ; TAB_GOTO /usr/lib/w3m/cgi-bin/goto_clipboard_primary.cgi"
+# keymap  xs      COMMAND       "SHELL ~/.w3m/cgi-bin/fzf_surfraw.cgi ; GOTO /usr/lib/w3m/cgi-bin/goto_clipboard.cgi"
+# keymap  XS      COMMAND       "SHELL ~/.w3m/cgi-bin/fzf_surfraw.cgi ; TAB_GOTO /usr/lib/w3m/cgi-bin/goto_clipboard.cgi"
+# keymap  xs      COMMAND       "SHELL ~/.w3m/cgi-bin/fzf_surfraw_tmux.cgi ; GOTO /usr/lib/w3m/cgi-bin/goto_tmux_clipboard.cgi"
+# keymap  XS      COMMAND       "SHELL ~/.w3m/cgi-bin/fzf_surfraw_tmux.cgi ; TAB_GOTO /usr/lib/w3m/cgi-bin/goto_tmux_clipboard.cgi"
+keymap  xx      COMMAND       "TAB_GOTO /usr/lib/w3m/cgi-bin/goto_tmux_clipboard.cgi"
+
+keymap  xu      COMMAND       "SHELL ~/.w3m/cgi-bin/user_agent_switcher_tmux.cgi"
+keymap  XU      COMMAND       "SHELL ~/.w3m/cgi-bin/user_agent_switcher.cgi"
+keymap  xo      COMMAND       "SHELL ~/.w3m/cgi-bin/fzf_settings_toggle_tmux.cgi"
+keymap  XO      COMMAND       "SHELL ~/.w3m/cgi-bin/fzf_settings_toggle.cgi"
+keymap  XX      COMMAND       "SHELL ~/.w3m/cgi-bin/queue2ariadaemon.cgi"
+
+
+
+# https://raw.githubusercontent.com/felipesaa/A-vim-like-firefox-like-configuration-for-w3m/master/documentation/functions.txt
+# https://ntmlabs.com/w3m-tricks/
+# https://web.archive.org/web/20200226144949/https://ntmlabs.com/w3m-tricks/
+# https://vitalyparnas.com/guides/w3m/
+# https://developers.whatismybrowser.com/useragents/explore/
+# leader key = \
+keymap  \\\c    COMMAND       "SET_OPTION color=toggle ; RESHAPE"
+keymap  \\\t    COMMAND       "SET_OPTION display_borders=toggle ; RESHAPE"
+keymap  \\\i    COMMAND       "SET_OPTION display_image=toggle ; RELOAD"
+keymap  \\\e    COMMAND       "SET_OPTION user_agent='' ; RELOAD"
+keymap  \\\a    COMMAND       "SET_OPTION user_agent='Opera/9.80 (S60; SymbOS; Opera Mobi/SYB-1107071606; U; en) Presto/2.8.149 Version/11.10' ; RELOAD"
+keymap  C-t     COMMAND       "TAB_GOTO https://duckduckgo.com/lite/; NEXT_LINK; GOTO_LINK"
+keymap  t       COMMAND       "TAB_GOTO https://duckduckgo.com/lite/; NEXT_LINK; GOTO_LINK"
+keymap  sg      COMMAND       "TAB_GOTO https://google.com; GOTO_LINE 6; NEXT_LINK; GOTO_LINK"
+keymap  s1      COMMAND       "TAB_GOTO https://1337x.to; GOTO_LINE 6; NEXT_LINK; GOTO_LINK"
+keymap  sx      COMMAND       "TAB_GOTO https://stackexchange.com; GOTO_LINE 7; NEXT_LINK; GOTO_LINK"
+keymap  \\\?    COMMAND       "HELP; SEARCH User-Defined; CENTER_V"
+# keymap  \\\m    COMMAND       "SHELL 'man w3m'"
+keymap  \\\x    COMMAND       "LIST; SEARCH \.torrent$; EXTERN_LINK ~/.scripts/privatescripts/addtorrent-thinkcentre"
+keymap  \\\m    COMMAND       "LIST; SEARCH magnet:\?; EXTERN_LINK ~/.scripts/privatescripts/addtorrent-thinkcentre"
+
+# }}}

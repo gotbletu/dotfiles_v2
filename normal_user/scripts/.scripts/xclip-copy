@@ -1,0 +1,23 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# LICENSE: GNU General Public License, version 3 (GPLv3)
+# DEMO: http://www.youtube.com/watch?v=fKP0FLp3uW0
+
+helpmsg() {
+  printf "%s\n" "desc: copy text to X11 clipboard (similar to ctrl+c in gui)"
+  printf "%s\n" "depend: xclip"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [txtfile]"
+  printf "%s\n" "       command | ${0##*/}"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} file.txt"
+  printf "%s\n" "  $ echo hello world | ${0##*/}"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+elif [ $# -eq 1 ]; then
+  xclip -selection clipboard "$1"
+else
+  xclip -selection clipboard
+fi

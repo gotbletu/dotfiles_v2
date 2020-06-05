@@ -1,0 +1,26 @@
+#!/bin/sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+#
+# DATE: Sun Apr 28, 2019
+#
+# DESC: Elvi to search tokyotosho
+# elvis: tokyotosho      -- Search tokyotosho for hentai mangas anime music jav japan raws hgame (https://www.tokyotosho.info)
+. surfraw || exit 1
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search words]...
+Description:
+  Search tokyotosho (https://www.tokyotosho.info) for hentai mangas anime music jav japan raws hgame
+EOF
+    w3_global_usage
+}
+
+w3_config
+w3_parse_args "$@"
+if test -z "$w3_args"; then
+    w3_browse_url "https://www.tokyotosho.info"
+else
+    escaped_args=`w3_url_of_arg $w3_args`
+    w3_browse_url "https://www.tokyotosho.info/search.php?terms=${escaped_args}&type=0&searchName=true&searchComment=true&size_min=&size_max=&username="
+fi

@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# LICENSE: GNU General Public License, version 3 (GPLv3)
+# DEMO: https://www.youtube.com/watch?v=YY3hRhrUjOQ
+
+helpmsg() {
+  printf "%s\n" "desc: convert clipboard selection into plain text (aka remove all html formatting)"
+  printf "%s\n" "depend: xclip"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/}"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  xclip -selection clipboard -o | xclip -selection clipboard
+fi

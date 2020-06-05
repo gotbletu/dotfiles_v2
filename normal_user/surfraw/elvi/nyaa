@@ -1,0 +1,26 @@
+#!/bin/sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+#
+# DATE: Thu June 06, 2013
+#
+# DESC: Elvi to search nyaa
+# elvis: nyaa		-- Search nyaa for anime torrents (www.nyaa.eu)
+. surfraw || exit 1
+
+w3_usage_hook () {
+    cat <<EOF
+Usage: $w3_argv0 [options] [search words]...
+Description:
+  Search nyaa (www.nyaa.eu) for anime torrents
+EOF
+    w3_global_usage
+}
+
+w3_config
+w3_parse_args "$@"
+if test -z "$w3_args"; then
+    w3_browse_url "https://www.nyaa.eu"
+else
+    escaped_args=`w3_url_of_arg $w3_args`
+    w3_browse_url "http://www.nyaa.eu/?page=search&cats=0_0&filter=0&term=${escaped_args}"
+fi

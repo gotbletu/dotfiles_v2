@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# DEPEND: coreutils gawk wit
+# DEMO:   https://www.youtube.com/watch?v=_vcdofAUcPI
+# REFF:   https://github.com/FIX94/Nintendont
+#         http://wiki.gbatemp.net/wiki/Nintendont_Compatibility_List
+#         http://wit.wiimm.de/
+
+helpmsg() {
+  printf "%s\n" "desc: convert gamecube iso games to ciso (compress iso, ignore unused blocks)"
+  printf "%s\n" "      works with nintendont v4.428+ and usbloadergx on a modded wii console."
+  printf "%s\n" "      after conversion the ciso will be renamed to iso to make it work under usbloadergx"
+  printf "%s\n" "depend: coreutils gawk wit"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [file]"
+  printf "%s\n" "       ${0##*/} [options] [file]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} smashbrosmelee.iso"
+  printf "%s\n" "  $ ${0##*/} doubledash.iso windwaker.iso sunshine.iso"
+  printf "%s\n" "  $ ${0##*/} -c unknowngc.iso"
+  printf "%s\n" "  $ ${0##*/} *.iso"
+  printf "\n"
+  printf "%s\n" "  -c, --content              convert and get title from rom content"
+  printf "%s\n" "  -t, --title                no convert, generate directory title from rom content"
+  printf "%s\n" "  -f, --filename             no convert, generate directory title from filename"
+  printf "%s\n" "  -h, --help                 display this help message"
+  printf "\n"
+  printf "%s\n" "Nintendont Uses These Paths:"
+  printf "%s\n" "  USB:/games/Name of game [GameID]/game.iso"
+  printf "%s\n" "  USB:/games/Legend of Zelda the Wind Waker (USA) [GZLP01]/game.iso"
+  printf "\n"
+  printf "%s\n" "Multiple Gamecube Disc Example:"
+  printf "%s\n" "  USB:/games/Resident Evil 4 (USA) [G4BE08]/game.iso"
+  printf "%s\n" "  USB:/games/Resident Evil 4 (USA) [G4BE08]/disc2.iso"
+}
+if [ $# -lt 1 ]; then
+  helpmsg
+  exit 1
+elif [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+elif [ "$1" = -t ] || [ "$1" = --title ]; then
+  myArray=("$@")
+  for arg in "${myArray[@]:1}"; do
+    REGION=$(wit lll -H "$arg" | awk '{print $4}')
+    GAMEID=$(wit lll -H "$arg" | awk '{print $1}')
+    TITLE=$(wit lll -H "$arg" | awk '{ print substr($0, index($0,$5)) }' | awk '{$1=$1};1' )
+    DIR_TITLENAME="$TITLE ($REGION) [$GAMEID]"
+    ## no conversion; only generate folder base on title inside the rom, move iso to folder
+    mkdir -pv "$DIR_TITLENAME"
+    mv -v "$arg" "$DIR_TITLENAME"/game.iso
+  done
+elif [ "$1" = -f ] || [ "$1" = --filename ]; then
+  myArray=("$@")
+  for arg in "${myArray[@]:1}"; do
+    FILENAME="${arg%.*}"
+    GAMEID=$(wit lll -H "$arg" | awk '{print $1}')
+    DIR_FILENAME="$FILENAME [$GAMEID]"
+    ## no conversion; only generate folder base on filename, move iso to folder
+    mkdir -pv "$DIR_FILENAME"
+    mv -v "$arg" "$DIR_FILENAME"/game.iso
+  done
+elif [ "$1" = -c ] || [ "$1" = --content ]; then
+  myArray=("$@")
+  for arg in "${myArray[@]:1}"; do
+    REGION=$(wit lll -H "$arg" | awk '{print $4}')
+    GAMEID=$(wit lll -H "$arg" | awk '{print $1}')
+    TITLE=$(wit lll -H "$arg" | awk '{ print substr($0, index($0,$5)) }' | awk '{$1=$1};1' )
+    DIR_TITLENAME="$TITLE ($REGION) [$GAMEID]"
+    ## convert to ciso; generate folder base on title inside the rom; move ciso to folder
+    ## rename ciso to iso ; this will make it compatible with both nintendont and usbloadergx
+    mkdir -pv "$DIR_TITLENAME"
+    wit copy --ciso "$arg" "$DIR_TITLENAME"/game.iso
+  done
+else
+  myArray=( "$@" )
+  for arg in "${myArray[@]}"; do
+    FILENAME="${arg%.*}"
+    GAMEID=$(wit lll -H "$arg" | awk '{print $1}')
+    DIR_FILENAME="$FILENAME [$GAMEID]"
+    ## convert to ciso; generate folder base on filename; move ciso to folder
+    ## rename ciso to iso ; this will make it compatible with both nintendont and usbloadergx
+    mkdir -pv "$DIR_FILENAME"
+    wit copy --ciso "$arg" "$DIR_FILENAME"/game.iso
+  done
+fi

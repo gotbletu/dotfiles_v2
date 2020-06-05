@@ -1,0 +1,25 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+helpmsg() {
+  printf "%s\n" "desc: convert bin/cue games to chd"
+  printf "%s\n" "depend: mame-tools"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [cuefile]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} file.cue"
+  printf "%s\n" "  $ ${0##*/} file1.cue file2.cue file3.cue"
+  printf "%s\n" "  $ ${0##*/} *.cue"
+}
+if [ $# -lt 1 ]; then
+  helpmsg
+  exit 1
+elif [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  myArray=("$@")
+  for arg in "${myArray[@]}"; do
+    chdman createcd -i "$arg" -o "${arg%.*}.chd"
+  done
+fi
