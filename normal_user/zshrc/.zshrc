@@ -308,17 +308,22 @@ alias -g Sn='| sort -n'
 alias -g Snr='| sort -nr'
 
 #}}}
-#-------- External Files {{{
+#-------- Source External Files {{{
 #------------------------------------------------------
+# [ -f "$HOME/.config/function/functionrc" ] && source "$HOME/.config/function/functionrc"
 
-# load alias/functions that works with both zsh/bash
-if [[ -d ~/.aliasrc ]]; then
-    myArray=($(ls ~/.aliasrc))
-    for arg in "${myArray[@]}"; do
-      source ~/.aliasrc/"$arg"
-    done
+# source all files in function directory
+if [ -d "$HOME/.config/function" ]; then
+  for f in "$HOME"/.config/function/*
+    do source "$f"
+  done
 fi
 
+# for file in * ; do
+#   if [ -f "$file" ] ; then
+#     . "$file"
+#   fi
+# done
 
 #}}}
 

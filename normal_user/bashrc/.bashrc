@@ -9,9 +9,7 @@
 #
 #       http://www.youtube.com/user/gotbletu
 #       https://twitter.com/gotbletu
-#       https://plus.google.com/+gotbletu
 #       https://github.com/gotbletu
-#       gotbletu@gmail.com
 
 
 
@@ -82,20 +80,6 @@ bind '"\C-F":"fh\n"'	# fzf history
 # autocompletion
 if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
-fi
-
-# alias
-# if [ -f ~/.aliasrc/aliasrc ]; then
-#     . ~/.aliasrc/aliasrc
-# fi
-
-
-# load alias/functions that works with both zsh/bash
-if [[ -d ~/.aliasrc ]]; then
-    myArray=($(ls ~/.aliasrc))
-    for arg in "${myArray[@]}"; do
-      source ~/.aliasrc/"$arg"
-    done
 fi
 
 # adds autoomplete to commands that dont work
@@ -186,4 +170,10 @@ alias srb='surfraw -browser=$BROWSERCLI'          # use for surfraw bookmarks (C
 alias srg='surfraw -browser=$BROWSER'             # use for surfraw bookmarks (GUI)
 
 
+# source all files in function directory
+if [ -d "$HOME/.config/function" ]; then
+  for f in "$HOME"/.config/function/*
+    do source "$f"
+  done
+fi
 
