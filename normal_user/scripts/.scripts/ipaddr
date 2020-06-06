@@ -10,9 +10,9 @@ if [ "$1" = -h ] || [ "$1" = --help ]; then
   helpmsg
   exit 0
 else
-  printf "%s\n" "Router IP: $(netstat -rn | awk 'FNR == 3 {print $2}')"
-  printf "%s\n" "Local IP: $(ip addr | awk '/global/ {print $2}' | cut -d'/' -f1 | head -n1 || ifconfig | awk '/inet/ {print $2}' | head -n1)"
-  printf "%s\n" "External IP: $(curl -s ifconfig.co || \
+  printf "%s\n" "Router IP (Gateway): $(ip route | awk '/via/ {print $3}' || route -n |  awk 'FNR == 3 {print $2}' || netstat -rn | awk 'FNR == 3 {print $2}')"
+  printf "%s\n" "Local IP (Private IP): $(ip addr | awk '/global/ {print $2}' | cut -d'/' -f1 | head -n1 || ifconfig | awk '/inet/ {print $2}' | head -n1)"
+  printf "%s\n" "External IP (Public IP): $(curl -s ifconfig.co || \
     curl -s icanhazip.com || \
     curl -s ipinfo.io/ip || \
     curl -s checkip.amazonaws.com || \

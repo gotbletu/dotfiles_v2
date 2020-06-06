@@ -234,7 +234,7 @@ fileviewer *.[1-8] man ./%c | col -b
 " Images
 filextype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm
         \ {View in sxiv}
-        \ sxiv %f,
+        \ sxiv-rifle %f,
         \ {View in gpicview}
         \ gpicview %c,
         \ {View in shotwell}
@@ -468,7 +468,9 @@ elseif executable('xclip')
     " nnoremap yd :!echo %d | xclip %i<cr>
     nnoremap yd :!echo %d | xclip -selection clipboard %i<cr>
     " Yank current file path into the clipboard
-    nnoremap yf :!echo %c:p | xclip -selection clipboard %i<cr>
+    nnoremap yp :!echo %c:p | xclip -selection clipboard %i<cr>
+    " Yank current filename into the clipboard
+    nnoremap yn :!echo %c | xclip -selection clipboard %i<cr>
 elseif executable('xsel')
     " Yank current directory path into primary and selection clipboards
     nnoremap yd :!echo -n %d | xsel --input --primary %i &&
@@ -574,7 +576,8 @@ command! zip if [ -n "%a" ]; then
            \ fi
 
 " move file to opposite pane but do not overwrite an existing file
-nnoremap mv :move<cr>
+"nnoremap mv :move<cr>
+map mv :move<cr>
 
 " reset filter
 nnoremap | :filter<cr>
@@ -607,8 +610,8 @@ nnoremap be :!garbage-empty<cr>
 "-------------------------------------------------------------- }}}
 "----- directory / tabs --------------------------------------- {{{
 " double directory newtab
-nnoremap 'p :tabnew | cd ~/.scripts ~/Public/projects | :tabname project<cr>
-nnoremap 'n :tabnew | cd ~/.scripts/ninjutsu ~/.scripts/summoningjutsu | :tabname ninjutsu<cr>
+nnoremap 'g :tabnew | cd ~ ~/Public/dotfiles | :tabname project<cr>
+nnoremap 'd :tabnew | cd ~/Public/dotfiles ~/Public/projects | :tabname dotfiles<cr>
 nnoremap 'x :tabnew | cd ~/.Torrent ~/.Blackbox | :tabname vids<cr>
 
 " single directory bookmarks
@@ -653,10 +656,13 @@ map < :!vifmimg dec<cr>
 
 " https://wiki.vifm.info/index.php/How_to_integrate_fzf_for_fuzzy_finding
 " command! FZFlocate :set noquickview | :execute 'goto ' fnameescape(term('locate $HOME media | fzf-tmux --height 10 2>/dev/tty'))
-command! FZFlocate :set noquickview | :execute 'goto' fnameescape(term('locate $HOME media | fzf 2>/dev/tty'))
-command! FZFfind :set noquickview | :execute 'goto' fnameescape(term('find | fzf 2>/dev/tty'))
+command! FZFlocate :set noquickview | :execute 'goto' fnameescape(term('locate $HOME media | fzf -e -i 2>/dev/tty'))
+command! FZFfind :set noquickview | :execute 'goto' fnameescape(term('find | fzf -e -i 2>/dev/tty'))
+command! FZFfasd :set noquickview | :execute 'goto' fnameescape(term('fasd -al | fzf -e -i 2>/dev/tty'))
+
 nnoremap sl :FZFlocate<cr>
 nnoremap sf :FZFfind<cr>
+nnoremap sv :FZFfasd<cr>
 
 " mounting devices / remote server
 nnoremap ,m :!mountjutsu<cr>

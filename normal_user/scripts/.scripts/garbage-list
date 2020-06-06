@@ -3,6 +3,7 @@
 
 helpmsg() {
   printf "%s\n" "desc: list content of trash-can similar to gui file manager"
+  printf "%s\n" "depend: glib2 or trash-cli"
   printf "\n"
   printf "%s\n" "usage: ${0##*/}"
 }
@@ -16,6 +17,6 @@ elif command -v gvfs-trash >/dev/null; then
 elif command -v trash-put >/dev/null; then
   trash-list
 else
-  printf "%s\n" "missing glib2, gvfs or trash-cli"
+  printf "%s\n" "missing dependency"
   exit 1
 fi

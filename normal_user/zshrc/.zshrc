@@ -1,21 +1,17 @@
-#              _   _     _      _                   _
-#   __ _  ___ | |_| |__ | | ___| |_ _   _   _______| |__
-#  / _` |/ _ \| __| '_ \| |/ _ \ __| | | | |_  / __| '_ \
-# | (_| | (_) | |_| |_) | |  __/ |_| |_| |  / /\__ \ | | |
-#  \__, |\___/ \__|_.__/|_|\___|\__|\__,_| /___|___/_| |_|
-#  |___/
-#
-#       DESC: ZSH Configurations
-#
-#       http://www.youtube.com/user/gotbletu
-#       https://twitter.com/gotbletu
-#       https://plus.google.com/+gotbletu
-#       https://github.com/gotbletu
-#       gotbletu@gmail.com
+#         _              
+# _______| |__  _ __ ___ 
+#|_  / __| '_ \| '__/ __|
+# / /\__ \ | | | | | (__ 
+#/___|___/_| |_|_|  \___|
+# gotbletu (@gmail|twitter|youtube|github|lbry)
 
-# http://stackoverflow.com/questions/171563/whats-in-your-zshrc
+#-------- Prompt {{{
+#------------------------------------------------------
+# https://wiki.archlinux.org/index.php/Zsh#Prompts
+autoload -U promptinit && promptinit
+prompt fade magenta   # set prompt theme (for listing: $ prompt -p)
 
-
+# }}}
 #-------- ZSH Modules {{{
 #------------------------------------------------------
 
@@ -23,18 +19,16 @@
 # zsh-mime-setup
 
 # }}}
-#-------- Prompt {{{
+#-------- Globbing {{{
 #------------------------------------------------------
-# https://wiki.archlinux.org/index.php/Zsh#Prompts
 
-autoload -U promptinit && promptinit
-prompt fade magenta   # set prompt theme (for listing: $ prompt -p)
+setopt extendedglob
+unsetopt caseglob
 
 # }}}
 #-------- History {{{
 #------------------------------------------------------
 # get more info: $man zshoptions
-
 setopt APPEND_HISTORY
 setopt EXTENDED_HISTORY
 setopt HIST_FIND_NO_DUPS
@@ -55,13 +49,6 @@ SAVEHIST=10000
 cfg-history() { $EDITOR $HISTFILE ;}
 
 #
-# }}}
-#-------- Globbing {{{
-#------------------------------------------------------
-
-setopt extendedglob
-unsetopt caseglob
-
 # }}}
 #-------- Vim Mode {{{
 #------------------------------------------------------
@@ -248,13 +235,7 @@ bindkey "^[[Z" magic-space            # shift-tab to bypass completion
 bindkey -M isearch " " magic-space    # normal space during searches
 
 
-alias -g CBD='$cbdojinshi '
-alias -g CBC='$cbcomic '
-alias -g TSP='TS_SOCKET=/tmp/ranger tsp'
-alias -g DBZ="&& mpv volume=100 ~/.soundeffects/dbz_closing_theme.wav"
-alias -g MGS="&& mpv volume=100 ~/.soundeffects/metalgear_alert.ogg"
 alias -g BELL='&& sleep 2 && echo -e "\a"'
-
 
 # http://www.zzapper.co.uk/zshtips.html
 alias -g ND='*(/om[1])' 	      # newest directory
@@ -264,13 +245,13 @@ alias -g V='| vless'
 alias -g L='| less -N'
 alias -g W='| w3m'
 alias -g G='| grep -i '
-alias -g AWK="| awk -F';' '/cheat/ {print $1}'"
-alias -g CUT="| cut -d' ' -f2-"
+alias -g AWK="awk -F';' '/cheat/ {print $1}'"
+alias -g CUT="cut -d' ' -f2-"
+alias -g SED="sed 's@@@g'"
 alias -g WC='| wc -l'
-alias -g TP='&& tmux kill-pane'
 alias -g WR='| while read line ; do echo "$line" ; done'
-alias -g WRA='| while read line ; do aria2c "$line" ; done'
-alias -g WRW='| while read line ; do aria2c "$line" ; done'
+alias -g WRA='| while read -r line ; do aria2c "$line" ; done'
+alias -g WRW='| while read -r line ; do aria2c "$line" ; done'
 
 
 
@@ -310,8 +291,6 @@ alias -g Snr='| sort -nr'
 #}}}
 #-------- Source External Files {{{
 #------------------------------------------------------
-# [ -f "$HOME/.config/function/functionrc" ] && source "$HOME/.config/function/functionrc"
-
 # source all files in function directory
 if [ -d "$HOME/.config/function" ]; then
   for f in "$HOME"/.config/function/*

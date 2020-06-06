@@ -3,6 +3,7 @@
 
 helpmsg() {
   printf "%s\n" "desc: restore file from trash-can similar to gui file manager"
+  printf "%s\n" "depend: trash-cli"
   printf "\n"
   printf "%s\n" "usage: ${0##*/}"
 }
@@ -12,6 +13,6 @@ if [ "$1" = -h ] || [ "$1" = --help ]; then
 elif command -v trash-restore >/dev/null; then
   trash-restore
 else
-  printf "%s\n" "missing trash-cli"
+  printf "%s\n" "missing dependency"
   exit 1
 fi

@@ -23,6 +23,8 @@ else
   myArray=("$@")
   for arg in "${myArray[@]}"; do
     if [[ -f "$arg" && ! -f "$DIR/${arg%.*}.mkv" ]]; then
+      # x265 CRF ranges: 0 (lossless) <-- 18 <-- 23 (better) --> 28 (default) --> 51 (worst)
+      # x265 CRF 28 = x264 CRF 23
       # convert audio to aac
       # ffmpeg -i "$arg" -c:v libx265 -preset medium -crf 28 -x265-params lossless -c:a aac -q:a 6 -c:s copy "${arg%.*} [x265].mkv"
       # very clear (same as OG)

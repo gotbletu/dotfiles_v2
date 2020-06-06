@@ -1,37 +1,12 @@
-"             _   _     _      _                 _
-"  __ _  ___ | |_| |__ | | ___| |_ _   _  __   _(_)_ __ ___  _ __ ___
-" / _` |/ _ \| __| '_ \| |/ _ \ __| | | | \ \ / / | '_ ` _ \| '__/ __|
-"| (_| | (_) | |_| |_) | |  __/ |_| |_| |  \ V /| | | | | | | | | (__
-" \__, |\___/ \__|_.__/|_|\___|\__|\__,_|   \_/ |_|_| |_| |_|_|  \___|
-" |___/
+"       _                    
+"__   _(_)_ __ ___  _ __ ___ 
+"\ \ / / | '_ ` _ \| '__/ __|
+" \ V /| | | | | | | | | (__ 
+"  \_/ |_|_| |_| |_|_|  \___|
+"                            
+" gotbletu (@gmail|twitter|youtube|github|lbry)
+"     https://www.youtube.com/user/gotbletu
 "
-"       DESC: VIM Configurations
-"
-"       http://www.youtube.com/user/gotbletu
-"       https://twitter.com/gotbletu
-"       https://plus.google.com/+gotbletu
-"       https://github.com/gotbletu
-
-" http://dougireton.com/blog/2013/02/23/layout-your-vimrc-like-a-boss/
-" https://www.reddit.com/r/linux/comments/48i2xx/tired_of_default_vim_i_made_an_great_vimrc_that/
-" https://github.com/sd65/MiniVim
-" https://www.reddit.com/r/vim/comments/48n2ap/helpful_leader_key_commands_with_gifs/
-" http://www.jeffcomput.es/posts/2016/02/vim-tips-helpful-leader-key-commands/
-
-"-------- Visual {{{
-"------------------------------------------------------
-
-
-" toggle absolute and relative numbers
-" http://www.reddit.com/r/vim/comments/vowr6/numbersvim_better_line_numbers_for_vim/
-" auto change numbers on mode switch
-silent! autocmd InsertEnter * :set number
-silent! autocmd InsertLeave * :set relativenumber
-nnoremap <F2> :se <c-r>=&rnu?"":"r"<CR>nu<CR>
-" toggle absolute,relative, and no numbers
-" map <Leader>nn :set <c-r>={'00':'','01':'r','10':'nor'}[&rnu.&nu]<CR>nu<CR>
-
-"}}}
 "-------- Settings {{{
 "------------------------------------------------------
 """ General options
@@ -69,6 +44,7 @@ set backspace=indent,eol,start       " The normal behaviour of backspace
 " set showtabline=2                    " Always show tabs
 set laststatus=2                     " Always show status bar
 set number                           " Show the line number
+set relativenumber
 set updatetime=1000
 set ignorecase                       " Search insensitive
 set smartcase                        " ... but smart
@@ -297,6 +273,14 @@ noremap <silent> <leader><space> :noh<cr>:call clearmatches()<cr>
 " references: https://vi.stackexchange.com/a/2463
 nnoremap gM :exe 'normal! '.(virtcol('$')/2).'\|'<cr>
 noremap <expr> gM (virtcol('$') / 2) . '<Bar>'
+
+
+"}}}
+"-------- Visual {{{
+"------------------------------------------------------
+" auto toggle relativenumbers when changing between normal and insert mode
+" autocmd InsertEnter * :set number norelativenumber
+" autocmd InsertLeave * :set nonumber relativenumber
 
 
 "}}}
@@ -754,18 +738,6 @@ map <leader>md :InstantMarkdownPreview<CR>
 colorscheme solarized
 
 
-"}}}
-"-------- ultisnips - The ultimate snippet solution for Vim {{{
-"------------------------------------------------------
-" https://github.com/SirVer/ultisnips
-
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
 "}}}
 "-------- ultisnips - The ultimate snippet solution for Vim {{{
 "------------------------------------------------------

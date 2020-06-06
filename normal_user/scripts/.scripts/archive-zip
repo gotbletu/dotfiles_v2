@@ -3,6 +3,7 @@
 
 helpmsg() {
   printf "%s\n" "desc: create zip archive"
+  printf "\n"
   printf "%s\n" "usage: ${0##*/} [file|directory]"
   printf "\n"
   printf "%s\n" "  $ ${0##*/} file.mp3"

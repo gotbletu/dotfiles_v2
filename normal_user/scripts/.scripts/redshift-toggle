@@ -1,0 +1,16 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+#         https://www.youtube.com/user/gotbletu
+# DESC: toggle redshift on and off
+# DEMO: https://www.youtube.com/watch?v=c8v84LRTeUw
+# DEPEND: redshift libnotify coreutils procps-ng psmisc
+
+# check if process is running ( 0 = off, 1 = on )
+STATUS="$(pgrep -l redshift | wc -l)"
+if [ "${STATUS}" = 0 ]; then
+  notify-send -i /usr/share/icons/hicolor/scalable/apps/redshift-status-on.svg "RedShift" "On"
+  redshift >/dev/null &
+elif [ "${STATUS}" = 1 ]; then
+  notify-send -i /usr/share/icons/hicolor/scalable/apps/redshift-status-off.svg "RedShift" "Off"
+  redshift -x && killall redshift
+fi

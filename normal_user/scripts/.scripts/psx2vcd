@@ -15,7 +15,7 @@
 
 helpmsg() {
   printf "%s\n" "desc: convert (non-splitted) single bin/cue to psx vcd (playstation video cd)"
-  printf "%s\n" "desc: convert (non-splitted) single bin/cue to psx vcd (playstation video cd)"
+  printf "%s\n" "depend: coreutils gawk sed psmisc popstationr cue2pops"
   printf "\n"
   printf "%s\n" "usage: ${0##*/} [cuefile]"
   printf "\n"

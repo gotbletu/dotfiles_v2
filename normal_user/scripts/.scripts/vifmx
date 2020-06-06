@@ -10,16 +10,13 @@ if [ ! -f "/usr/bin/ueberzug" ]; then
 fi
 
 function cleanup {
-   # (ps aux | grep '/usr/bin/python /usr/bin/[u]eberzug' | grep -v 'S+\|Sl+' | cut -d' ' -f2 | while read line ; do kill -9 "$line" ; done) 2>/dev/null
     ps aux | grep '/usr/bin/python /usr/bin/[u]eberzug' | grep -v 'S+\|Sl+' | cut -d' ' -f2 | while read line ; do kill -9 "$line" ; done 2>/dev/null
     rm "$FIFO_UEBERZUG" 2>/dev/null
     pkill -P $$ 2>/dev/null
 }
 pkill -P $$ 2>/dev/null
 rm "$FIFO_UEBERZUG" 2>/dev/null
-#ps aux | grep '/usr/bin/python /usr/bin/[u]eberzug' | grep -v 'S+\|Sl+' | cut -d' ' -f2 | while read line ; do kill -9 "$line" ; done
 ps aux | grep '/usr/bin/python /usr/bin/[u]eberzug' | grep -v 'S+\|Sl+' | cut -d' ' -f2 | while read line ; do kill -9 "$line" ; done 2>/dev/null
-# (ps aux | grep '/usr/bin/python /usr/bin/[u]eberzug' | grep -v 'S+\|Sl+' | cut -d' ' -f2 | while read line ; do kill -9 "$line" ; done) 2>/dev/null
 mkfifo "$FIFO_UEBERZUG" >/dev/null
 trap cleanup EXIT 2>/dev/null
 tail --follow "$FIFO_UEBERZUG" | ueberzug layer --silent --parser bash 2>&1 >/dev/null &
