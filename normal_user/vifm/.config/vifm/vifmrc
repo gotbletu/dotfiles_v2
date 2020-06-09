@@ -566,6 +566,7 @@ nnoremap cx :!chmod +x %f<cr>
 
 " create new directory and cd into it
 nnoremap md :mkcd<space>
+nnoremap mk :mkdir<space>
 nnoremap mf :!$EDITOR<space>
 nnoremap mt :!archive-targz %f<cr>
 command! zip zip -r %f.zip %f
@@ -668,6 +669,7 @@ nnoremap sv :FZFfasd<cr>
 nnoremap ,m :!mountjutsu<cr>
 nnoremap ,s :!sambajutsu<cr>
 nnoremap ,t :!mount2sshfs-thinkcentre<cr>
+nnoremap ,2 :!timecapsule-handler-tc2tb-godmode && read<cr>
 
 
 " view contents of archive files on opening them
@@ -684,19 +686,19 @@ nnoremap ax :extract<cr>
 "----- task-spooler ------------------------------------------- {{{
 
 " copy files to the opposite pane (using rsync)
-nnoremap ry :!TS_SOCKET=/tmp/fm tsp rsync -r %f %D<cr>
+map ry :!TS_SOCKET=/tmp/fm tsp rsync -r %f %D<cr>
 
 " move files to the opposite pane (using rsync)
-nnoremap rd :!TS_SOCKET=/tmp/fm tsp rsync -r  %f %D && TS_SOCKET=/tmp/fm tsp -d garbage %f<cr>
+map rd :!TS_SOCKET=/tmp/fm tsp rsync -r  %f %D && TS_SOCKET=/tmp/fm tsp -d garbage %f<cr>
 
 " watch task-spooler queue
-nnoremap rw :!watch TS_SOCKET=/tmp/fm tsp<cr>
+map rw :!watch TS_SOCKET=/tmp/fm tsp<cr>
 
 " watch task-spooler queue in tmux split
-nnoremap rt :!tmux split "watch TS_SOCKET=/tmp/fm tsp"<cr>
+map rt :!tmux split "watch TS_SOCKET=/tmp/fm tsp"<cr>
 
 " task-spooler clear finished jobs from the queue
-nnoremap rc :!TS_SOCKET=/tmp/fm tsp -C<cr>
+map rc :!TS_SOCKET=/tmp/fm tsp -C<cr>
 "-------------------------------------------------------------- }}}
 
 
@@ -716,8 +718,8 @@ nnoremap rc :!TS_SOCKET=/tmp/fm tsp -C<cr>
 "-------------------------------------------------------------- }}}
 
 
-" default set of view columns
-windo set viewcolumns=*{name}.,10{size}.,12{mtime}
+" default set of view columns (* = cut filename beginning, - = cut filename at the end)
+windo set viewcolumns=-{name}.,10{size}.,12{mtime}
 
 "https://superuser.com/questions/634286/vifm-how-do-i-set-the-viewcolumn-option-in-my-vifmrc-so-that-it-applies-to-both
 "windo set viewcolumns=-{name}..,6{}.
@@ -774,14 +776,14 @@ nnoremap rr :file<space><tab>
 command! togglesorter
          \ :if &sort == '-size,+name'
          \ |    set sort=-mtime
-         \ |    set viewcolumns=*{name}.,10{size}.,12{mtime}
+         \ |    set viewcolumns=-{name}.,10{size}.,12{mtime}
          \ |    echo 'Sorted by modification date (reverse order)'
          \ |elseif &sort == '+name'
          \ |    set sort=-size
          \ |    echo 'Sorted by size'
          \ |else
          \ |    set sort=+name
-         \ |    set viewcolumns=*{name}..,6{}.
+         \ |    set viewcolumns=-{name}..,6{}.
          \ |    echo 'Sorted by name'
          \ |endif
 nnoremap go :togglesorter<cr>

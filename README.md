@@ -27,10 +27,10 @@
     stow -v -R -t ~ tmux
     
     ## if folder was deleted then:
-    # delete (-D flag)
+    # delete (-D flag then -R to relink)
     cd ~/Public/gitrepo/dotfiles_v2/normal_user
     stow -v -D -t ~ */
-    stow -v -D -t ~ tmux
+    stow -v -R -t ~ */
 
 ----
 

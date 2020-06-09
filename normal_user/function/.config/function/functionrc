@@ -515,14 +515,11 @@ alias vless="vim --not-a-term -c 'set nomod nolist' -"
 #-------- Functions (Oneliner) {{{
 #------------------------------------------------------
 
-# cpbak() { cp $1{,.bak} ;}		          # create backup copy
 down4me() { curl -s "http://downforeveryoneorjustme.com/$1" | sed '/just you/!d;s/<[^>]*>//g' ;}   # check if a website is down
-killall-zombies() { kill -HUP $(ps -A -ostat,ppid | grep -e '[zZ]'| awk '{ print $2 }') ;}  # kill zombie process
+# killall-zombies() { kill -HUP $(ps -A -ostat,ppid | grep -e '[zZ]'| awk '{ print $2 }') ;}  # kill zombie process
+# zombie-process() { ps aux | awk '{ print $8 " " $2 }' | grep -w Z ;}
 mkcd() { mkdir -p -- "$1"; cd "$_" ;}	          # create folder then cd into it
-# nohup-command() { nohup "$@" >/dev/null 2>&1& }   # background a process w/o error msg filling screen
 open() { "$OPENER" "$@" > /dev/null 2>&1 ;}        # open with default GUI program
-# cbrit() { rar a -r "${1%/}.cbr" "$1" ;}           # create cbr archive for comicbooks/manga
-# cbzit() { zip -r "${1%/}.cbz" "$1" ;}             # create cbz archive for comicbooks/manga
 
 # }}}
 #-------- Functions (Good List) {{{
@@ -839,6 +836,15 @@ fi
 # }}}
 
 #}}}
+#-------- FFF File Manager {{{
+#------------------------------------------------------
+# DESC: cd using a file manager
+# REFF: https://github.com/dylanaraps/fff/issues/18#issuecomment-451689405
+export FFF_CD_FILE=/tmp/.fff_d
+ff() { fff "$@"; cd "$(< $FFF_CD_FILE)"; }
+
+# }}}
+
 
 ####################
 ##### GRAPHICS #####
@@ -1001,16 +1007,6 @@ ripme-tsp() {
 }
 
 # }}}
-# #-------- Quvi (Download/Stream Media CLI) {{{
-# #------------------------------------------------------
-# # DEMO: https://www.youtube.com/watch?v=jLw64k8CoMc
-# # LINK: http://quvi.sourceforge.net/
-# # DESC: media downloader and streamer using external player
-#
-# quvi-dl() { quvi get "$1" ;}
-# quvi-stream() { quvi dump "$1" -b quiet --exec "$PLAYER %u" ;}
-#
-# # }}}
 #-------- Wget (Retrieve Files From The Web) {{{
 #------------------------------------------------------
 # http://stackoverflow.com/a/18709707
@@ -1583,8 +1579,8 @@ flexget-forget() { flexget movie-list forget "$@" ;}	# allow redownloading on wa
 # LINK: https://github.com/clvv/fasd
 # DESC: jump to path or open recent files quickly from cli
 
-if which fasd >/dev/null; then
-  eval "$(fasd --init auto)"	# get fasd working, initialization code
+if command -v fasd >/dev/null; then
+  eval "$(fasd --init auto)"
 
   # different fasd listing
   # alias a='fasd -a'               # any
@@ -3760,7 +3756,6 @@ alias xev-keycode="xev | grep 'keycode\|button'"
 #-------- Functions {{{
 #------------------------------------------------------
 
-unlock() { keepassc -d ~/.keepass/masterlock.kdb ;}
 
 
 # change font size (guake terminal)
@@ -3780,14 +3775,7 @@ chfontsize() {
 mdless(){ pandoc -s -f markdown -t man "$*" | groff -T utf8 -man | less ;}
 
 # quickly cd out of directories using numbers, example: up 2
-# up() { local x='';for i in $(seq ${1:-1});do x="$x../"; done;cd $x; }
-
-# show file access permission
-# http://unix.stackexchange.com/a/46921
-# file-permission() { stat --format '%a %n' "$@" ;}
-
-# display mime of file application/zip, application/x-tar
-# file-type() { file --mime-type -b "$@" ;}
+up() { local x='';for i in $(seq ${1:-1});do x="$x../"; done;cd $x; }
 
 # call vim help page from shell prompt
 function :h { vim +":h $1" +'wincmd o' +'nnoremap q :q!<CR>' ;}
@@ -3812,12 +3800,6 @@ cmdfu() { curl "http://www.commandlinefu.com/commands/matching/$(echo "$@" \
 # display one random command from commandlinefu.com
 cmdfu-random() { echo -e "`curl -sL http://www.commandlinefu.com/commands/random/json|sed -re 's/.*,"command":"(.*)","summary":"([^"]+).*/\\x1b[1;32m\2\\n\\n\\x1b[1;33m\1\\x1b[0m/g'`\n" ;}
 
-
-# w3m browser with inline images
-# https://plus.google.com/102499719144563443986/posts/Vja8W69iHoi
-# tutorial video: http://www.youtube.com/watch?v=R2bMUtCOGko
-# w3mimg() { w3m -o display_image=1 -o imgdisplay=w3mimgdisplay "$1" ;}
-
 #}}}
 # #-------- Screenshot {{{
 # #------------------------------------------------------
@@ -3828,191 +3810,6 @@ cmdfu-random() { echo -e "`curl -sL http://www.commandlinefu.com/commands/random
 # pix-area() { sleep 2 && scrot -s "$PATH_SCREENSHOT/windowed_`date +'%F_%Hh%Ms%S'`.png" ;}
 #
 # # }}}
-#-------- Convert to iOS (iPod, Macs, iPhone, Apple TV) {{{
-#------------------------------------------------------
-# https://trac.handbrake.fr/wiki/BuiltInPresets
-
-convert-to-iOS-ipod() {
-  if [ $# -lt 1 ]; then
-    echo -e "HandBrake's low resolution settings for the iPod (5G and up)"
-    echo -e "Optimized for great playback on the iPod screen, with smaller file size."
-    echo -e "\nUsage: $0 <filename>"
-    echo -e "\nExample:\n$0 file.avi"
-    echo -e "$0 file1.avi file2.avi file3.avi"
-    echo -e "$0 *.avi"
-    return 1
-  fi
-  myArray=( "$@" )
-  for arg in "${myArray[@]}"; do
-    while [ ! -f "${arg%.*}".ipod.mp4 ]
-    do
-      HandBrakeCLI -i "$arg" -o "${arg%.*}.ipod.mp4" --preset="iPod"
-    done
-  done
-}
-
-convert-to-iOS-universal() {
-  if [ $# -lt 1 ]; then
-    echo -e "HandBrake's universally compatible, full resolution settings for all current Apple devices"
-    echo -e "iPod (6G and up), iPhone, AppleTV, and Macs"
-    echo -e "\nUsage: $0 <filename>"
-    echo -e "\nExample:\n$0 file.avi"
-    echo -e "$0 file1.avi file2.avi file3.avi"
-    echo -e "$0 *.avi"
-    return 1
-  fi
-  myArray=( "$@" )
-  for arg in "${myArray[@]}"; do
-    while [ ! -f "${arg%.*}".universal.mp4 ]
-    do
-      HandBrakeCLI -i "$arg" -o "${arg%.*}.universal.mp4" --preset="Universal"
-    done
-  done
-}
-
-convert-to-iOS-iphone() {
-  if [ $# -lt 1 ]; then
-    echo -e "HandBrake's settings for all iPhones and iPod Touches going back to the original iPhone 2G."
-    echo -e "\nUsage: $0 <filename>"
-    echo -e "\nExample:\n$0 file.avi"
-    echo -e "$0 file1.avi file2.avi file3.avi"
-    echo -e "$0 *.avi"
-    return 1
-  fi
-  myArray=( "$@" )
-  for arg in "${myArray[@]}"; do
-    while [ ! -f "${arg%.*}".iphone.mp4 ]
-    do
-      HandBrakeCLI -i "$arg" -o "${arg%.*}.iphone.mp4" --preset="iPhone & iPod touch"
-    done
-  done
-}
-
-convert-to-iOS-ipodtouch() {
-  if [ $# -lt 1 ]; then
-    echo -e "HandBrake's settings for all iPhones and iPod Touches going back to the original iPhone 2G."
-    echo -e "\nUsage: $0 <filename>"
-    echo -e "\nExample:\n$0 file.avi"
-    echo -e "$0 file1.avi file2.avi file3.avi"
-    echo -e "$0 *.avi"
-    return 1
-  fi
-  myArray=( "$@" )
-  for arg in "${myArray[@]}"; do
-    while [ ! -f "${arg%.*}".ipodtouch.mp4 ]
-    do
-      HandBrakeCLI -i "$arg" -o "${arg%.*}.ipodtouch.mp4" --preset="iPhone & iPod touch"
-    done
-  done
-}
-
-convert-to-iOS-ipad() {
-  if [ $# -lt 1 ]; then
-    echo -e "Usage: $0 <filename>"
-    echo -e "\nExample:\n$0 file.avi"
-    echo -e "$0 file1.avi file2.avi file3.avi"
-    echo -e "$0 *.avi"
-    return 1
-  fi
-  myArray=( "$@" )
-  for arg in "${myArray[@]}"; do
-    while [ ! -f "${arg%.*}".ipad.mp4 ]
-    do
-      HandBrakeCLI -i "$arg" -o "${arg%.*}.ipad.mp4" --preset="iPad"
-    done
-  done
-}
-
-convert-to-iOS-appletv() {
-  if [ $# -lt 1 ]; then
-    echo -e "HandBrake's settings for the AppleTV and 2009's iPhone and iPod Touch lineup. Provides a good balance between quality and file size, and pushes the devices to their limits. Includes Dolby Digital 5.1 AC3 sound for the AppleTV."
-    echo -e "\nUsage: $0 <filename>"
-    echo -e "\nExample:\n$0 file.avi"
-    echo -e "$0 file1.avi file2.avi file3.avi"
-    echo -e "$0 *.avi"
-    return 1
-  fi
-  myArray=( "$@" )
-  for arg in "${myArray[@]}"; do
-    while [ ! -f "${arg%.*}".appletv.mp4 ]
-    do
-      HandBrakeCLI -i "$arg" -o "${arg%.*}.appletv.mp4" --preset="AppleTV"
-    done
-  done
-}
-
-convert-to-iOS-appletv2() {
-  if [ $# -lt 1 ]; then
-    echo -e "Usage: $0 <filename>"
-    echo -e "\nExample:\n$0 file.avi"
-    echo -e "$0 file1.avi file2.avi file3.avi"
-    echo -e "$0 *.avi"
-    return 1
-  fi
-  myArray=( "$@" )
-  for arg in "${myArray[@]}"; do
-    while [ ! -f "${arg%.*}".appletv2.mp4 ]
-    do
-      HandBrakeCLI -i "$arg" -o "${arg%.*}.appletv2.mp4" --preset="AppleTV 2"
-    done
-  done
-}
-
-convert-to-iOS-appletv3() {
-  if [ $# -lt 1 ]; then
-    echo -e "Usage: $0 <filename>"
-    echo -e "\nExample:\n$0 file.avi"
-    echo -e "$0 file1.avi file2.avi file3.avi"
-    echo -e "$0 *.avi"
-    return 1
-  fi
-  myArray=( "$@" )
-  for arg in "${myArray[@]}"; do
-    while [ ! -f "${arg%.*}".appletv3.mp4 ]
-    do
-      HandBrakeCLI -i "$arg" -o "${arg%.*}.appletv3.mp4" --preset="AppleTV 3"
-    done
-  done
-}
-
-# }}}
-#-------- Convert to Android (Smartphone, Tablet) {{{
-#------------------------------------------------------
-convert-to-android-mobile() {
-  if [ $# -lt 1 ]; then
-    echo -e "Usage: $0 <filename>"
-    echo -e "\nExample:\n$0 file.avi"
-    echo -e "$0 file1.avi file2.avi file3.avi"
-    echo -e "$0 *.avi"
-    return 1
-  fi
-  myArray=( "$@" )
-  for arg in "${myArray[@]}"; do
-    while [ ! -f "${arg%.*}".androidmobile.mp4 ]
-    do
-      HandBrakeCLI -i "$arg" -o "${arg%.*}.androidmobile.mp4" --preset="Android"
-    done
-  done
-}
-
-convert-to-android-tablet() {
-  if [ $# -lt 1 ]; then
-    echo -e "Usage: $0 <filename>"
-    echo -e "\nExample:\n$0 file.avi"
-    echo -e "$0 file1.avi file2.avi file3.avi"
-    echo -e "$0 *.avi"
-    return 1
-  fi
-  myArray=( "$@" )
-  for arg in "${myArray[@]}"; do
-    while [ ! -f "${arg%.*}".androidtablet.mp4 ]
-    do
-      HandBrakeCLI -i "$arg" -o "${arg%.*}.androidtablet.mp4" --preset="Android Tablet"
-    done
-  done
-}
-
-# }}}
 #-------- Slice Videos {{{
 #------------------------------------------------------
 
@@ -4254,28 +4051,6 @@ detox-human-dash() {
   done
 }
 
-detox-video() {
-  if [ $# -lt 1 ]; then
-    echo -e "clean video filename then add [duration,filesize,resolution]"
-    echo -e "Usage: $0 <filename>"
-    echo -e "\nExample:\n$0 file.mp4"
-    echo -e "$0 file1.mp4 file2.mp4 file3.mp4"
-    echo -e "$0 *.mp4"
-    return 1
-  fi
-  myArray=( "$@" )
-  for arg in "${myArray[@]}"; do
-    # check if file is a valid video before continuing
-    get_mimetype=$(file --mime-type -b "$arg" | cut -d '/' -f1)
-    if [ "$get_mimetype"  = "video" ]; then
-      compression=$(ffmpeg -i "$arg" 2>&1 | grep Video: | cut -d ':' -f4 | cut -d ' ' -f2)
-      duration=$(ffmpeg -i "$arg" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,// | cut -d '.' -f1 | awk -F: '{print $1"h"$2"m"$3"s"}')
-      filesize=$(du -h "$arg" | awk '{print $1}')
-      resolution=$(ffprobe -v error -of flat=s=_ -select_streams v:0 -show_entries stream=height "$arg" | cut -d '=' -f2)
-      mv "$arg" "${arg%.*} [${duration},${filesize},${resolution}p,${compression}].${arg##*.}"
-    fi
-  done
-}
 
 # }}}
 #-------- Music Tagging CLI {{{
@@ -5702,16 +5477,6 @@ convert-to-droid-normal() {
 }
 
 # }}}
-#-------- Demuxing {{{
-#------------------------------------------------------
-
-demux-videotrack() { ffmpeg -i "$1" -an -codec:v copy "${1%.*}"."$0"."${1##*.}" ;}
-demux-audiotrack() { ffmpeg -i "$1" -vn -codec:a copy "${1%.*}"."$0"."${1##*.}" ;}
-
-# demux_subs
-# demux_fonts/attachments
-
-# }}}
 #-------- Plowshare {{{
 #------------------------------------------------------
 # d/l cyberlocker files like rapidshare, mediafire ..etc
@@ -5994,11 +5759,10 @@ gg-pastebin() { sitelist=$(echo "pastebin.com paste2.org pastie.org snipt.net
 	heypasteit.com/clip pastee.org shell-fu.org commandlinefu.com catonmat.net
 	linuxconfig.net github.com bitbucket.org slexy.org stackoverflow.com
 	askubuntu.com superuser.com dotfiles.org dotshare.it gitorious.org
+        pastefs.com
 	serverfault.com wikia.com stackexchange.com" \
 		| sed 's/ /\+OR\+site\:/g')
 	url=$(echo "https://encrypted.google.com/search?hl=en&q=$@+site:$sitelist"\
-		| sed 's/ /+/g'); $BROWSER $url; }
-gg-piratebay() { url=$(echo "http://thepiratebay.org/search/$@" \
 		| sed 's/ /+/g'); $BROWSER $url; }
 gg-porn() { sitelist=$(echo "youporn.com redtube.com xvideos.com xhamster.com
 	tube8.com grayvee.com pornhub.com/view_video.php?viewkey tnaflix.com
@@ -6006,10 +5770,6 @@ gg-porn() { sitelist=$(echo "youporn.com redtube.com xvideos.com xhamster.com
        	motherless.com xnxx.com cliphunter.com extremetube.com/video" \
 		| sed 's/ /\+OR\+site\:/g')
 	url=$(echo "https://encrypted.google.com/search?hl=en&q=$@+site:$sitelist"\
-		| sed 's/ /+/g'); $BROWSER $url; }
-gg-reader() { url=$(echo "https://encrypted.google.com/reader/view/#search/$@" \
-		| sed 's/ /+/g'); $BROWSER $url; }
-gg-search() { url=$(echo "https://encrypted.google.com/search?hl=en&q=$@" \
 		| sed 's/ /+/g'); $BROWSER $url; }
 gg-serial() { sitelist=$(echo "freeserials.com/serials/download.php?id= serials.ws/d.php?n" \
 		| sed 's/ /\+OR\+site\:/g')
@@ -6024,85 +5784,9 @@ gg-translate() {
 	$BROWSER http://translate.google.com/#auto/en/"$*" ;}
 
 #}}}
-#-------- GNOME 2 configs {{{
-#------------------------------------------------------
-
-# function h-framebuffer() {
-# echo -e '
-# mplayer -vo fbdev -fs -vf scale=1280:-3 FileName
-# mplayer -vo fbdev -fs -vf scale=-3:1024 FileName
-#
-# on Arch linux use fbdev2
-# mplayer -vo fbdev2
-#
-# vlc video_file
-# vlc --vout fb video_file
-# '}
-# function h-gconf-tweaks() {
-# echo -e "
-# #Wallpaper Changer
-# bash -c 'gconftool-2 -t str -s /desktop/gnome/background/picture_filename "$(find ~/Pictures/Wallpapers -type f | shuf -n1)"'
-#
-# compiz --replace
-# metacity --replace
-# emerald --replace
-# xkill
-# gnome-system-monitor
-# gnome-search-tool --hidden
-#
-# #Dont Dim When Asking for Password
-# gconftool-2 --type boolean --set /apps/gksu/disable-grab "True"
-# gconftool-2 --set "/apps/metacity/general/button_layout" --type string ":close"
-#
-# #Button Placement
-# gconftool-2 --set "/apps/metacity/general/button_layout" --type string ":minimize,maximize,close"
-# gconftool-2 --set "/apps/metacity/general/button_layout" --type string ":close"
-#
-# #Middle Click Minimize
-# gconftool-2 --set "/apps/metacity/general/action_middle_click_titlebar" --type string "minimize"
-#
-# #Hide Desktop Icon Drives
-# gconftool-2 --set "/apps/nautilus/desktop/volumes_visible" --type boolean "false"
-#
-# #Disable Lock on Idle
-# gconftool-2 --set "/apps/gnome-power-manager/lock/gnome_keyring_hibernate" --type boolean "false"
-# gconftool-2 --set "/apps/gnome-power-manager/lock/hibernate" --type boolean "false"
-# gconftool-2 --set "/apps/gnome-power-manager/lock/suspend" --type boolean "false"
-#
-# #Enable Metacity Compositing
-# gconftool-2 --set '/apps/metacity/general/compositing_manager' --type boolean "true"
-#
-# #Disable Screensaver
-# gconftool-2 --set '/apps/gnome-screensaver/idle_activation_enabled' --type boolean "false"
-# gconftool-2 --set '/apps/gnome-screensaver/lock_enabled' --type boolean "false"
-#
-# #Clock Format
-# gconftool-2 --set '/apps/panel/applets/clock_screen0/prefs/format' --type string "custom"
-# gconftool-2 --set '/apps/panel/applets/clock_screen0/prefs/custom_format' --type string "%a %b/%d/%y, %I:%M %p"
-#
-# #AWN Auto Hide
-# Set awn setting behavior: Custom | Autohide mode: Fade Out | Icon Effects: Simple
-# gconftool-2 --set '/apps/instances/avant-window-navigator/panel-1/panel/intellihide_mode' --type string "0"
-#
-# #AWN OLD WAY TO AUTO HIDE
-# gconftool-2 --set '/apps/awn-applet-taskmanager/intellihide' --type boolean "false"
-#
-# # Default Open App, LINK CLICK
-# gconftool-2 -t string -s /desktop/gnome/url-handlers/magnet/command "/usr/bin/transmission-gtk %s"
-# gconftool-2 -s /desktop/gnome/url-handlers/magnet/needs_terminal false -t bool
-# gconftool-2 -t bool -s /desktop/gnome/url-handlers/magnet/enabled true
-#
-#
-# "}
-
-
-# }}}
 #-------- Clean Stuff {{{
 #------------------------------------------------------
 
-# http://www.commandlinefu.com/commands/view/954
-symlinks() { find . -type l ! -exec test -e {} \; -print ;}
-symlinks-delete() { find . -type l ! -exec test -e {} \; -print0 | xargs -0 rm ;}
 rm-except() {
 	find . -type f -not -name '*copy*' | xargs rm
 }
@@ -6296,31 +5980,6 @@ else
 fi
 }
 # }}}
-#-------- Function Informations {{{
-#------------------------------------------------------
-
-function    osr              { shutdown -r now; }
-function    osh              { shutdown -h now; }
-
-function    mfloppy          { mount /dev/fd0 /mnt/floppy; }
-function    umfloppy         { umount /mnt/floppy; }
-
-function    mdvd             { mount -t iso9660 -o ro /dev/dvd /mnt/dvd; }
-function    umdvd            { umount /mnt/dvd; }
-
-function    mcdrom           { mount -t iso9660 -o ro /dev/cdrom /mnt/cdrom; }
-function    umcdrom          { umount /mnt/cdrom; }
-
-
-function    dub              { du -sclb $@; }
-function    duk              { du -sclk $@; }
-function    dum              { du -sclm $@; }
-
-function    dfk              { df -PTak $@; }
-function    dfm              { df -PTam $@; }
-function    dfh              { df -PTah $@; }
-function    dfi              { df -PTai $@; }
-# }}}
 #-------- OCR {{{
 #------------------------------------------------------
 
@@ -6425,7 +6084,6 @@ mpv-pip() { tsp mpv --ontop --no-border --autofit=500x280 --geometry=99%:99% "$@
 mplist(){ mplayer -playlist <(tree -aif "$1" | awk '/\.(mp3|wav|ogg|avi|mpg|iso)$/'); }
 #mplist(){ mplayer -playlist <(find "$1" -regex '.*\.\(mp3\|wav\|ogg\|avi\|mpg\|iso\)' | sort); }
 
-zombie-process() { ps aux | awk '{ print $8 " " $2 }' | grep -w Z ;}
 
 normalizeaudio()       { sox --norm "$1" "${1%.*}"."$0"."${1##*.}" ;}
 # usage: combine-zip file.zip -- join splited zip (z01, z02 ..etc)
@@ -8600,8 +8258,3 @@ vicd()
 # autostart tmux session or attach
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ] && [ ${UID} != 0 ]; then tmux new-session -A -s main; else tmux attach ; fi &> /dev/null
 
-# cd using a file manager
-# https://github.com/dylanaraps/fff/issues/18#issuecomment-451689405
-export FFF_CD_FILE=/tmp/.fff_d
-# ftf() { fff "$@"; cd "$(< ~/.fff_d)"; }
-ff() { fff "$@"; cd "$(< $FFF_CD_FILE)"; }
