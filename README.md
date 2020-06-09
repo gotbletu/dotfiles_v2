@@ -21,15 +21,16 @@
     chsh -s /usr/bin/zsh
 
     ## if new folder is added then:
-    # delete (-D flag)
-    cd ~/Public/gitrepo/dotfiles_v2/normal_user
-    stow -v -D -t ~ */
-    stow -v -D -t ~ tmux
-
     # redo link (-R)
     cd ~/Public/gitrepo/dotfiles_v2/normal_user
     stow -v -R -t ~ */
     stow -v -R -t ~ tmux
+    
+    ## if folder was deleted then:
+    # delete (-D flag)
+    cd ~/Public/gitrepo/dotfiles_v2/normal_user
+    stow -v -D -t ~ */
+    stow -v -D -t ~ tmux
 
 ----
 

@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+helpmsg() {
+  printf "%s\n" "desc: remove all dead symlinks in the current directory"
+  printf "%s\n" "depend: findutils"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/}"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  find . -type l ! -exec test -e {} \; -print0 | xargs -0 rm
+fi

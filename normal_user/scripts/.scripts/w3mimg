@@ -1,0 +1,22 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# DEMO: https://www.youtube.com/watch?v=R2bMUtCOGko
+
+helpmsg() {
+  printf "%s\n" "desc: w3m with inline image display enable"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [image|url]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} /path/to/file.jpg"
+  printf "%s\n" "  $ ${0##*/} https://i.imgur.com/Q9HQWGB.png"
+  printf "%s\n" "  $ ${0##*/} https://www.google.com"
+}
+if [ $# -lt 1 ]; then
+  helpmsg
+  exit 1
+elif [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  w3m -o display_image=1 -o imgdisplay=w3mimgdisplay "$1"
+fi

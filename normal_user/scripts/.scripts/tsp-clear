@@ -1,0 +1,20 @@
+#!/usr/bin/env sh
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+# DEMO: https://www.youtube.com/watch?v=wv8D8wT20ZY
+#       https://www.youtube.com/watch?v=WiP1OM7Kf10
+
+helpmsg() {
+  printf "%s\n" "desc: clear all finish task-spooler queue from multiple branch"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/}"
+  printf "\n"
+  printf "%s\n" "-----------------------------------------"
+}
+if [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  tsp -C
+  TS_SOCKET=/tmp/fm tsp -C
+  TS_SOCKET=/tmp/wb tsp -C
+fi

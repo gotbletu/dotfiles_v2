@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+# AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+
+helpmsg() {
+  printf "%s\n" "desc: extract only video track (no audio) without converting"
+  printf "%s\n" "depend: ffmpeg"
+  printf "\n"
+  printf "%s\n" "usage: ${0##*/} [file]"
+  printf "\n"
+  printf "%s\n" "  $ ${0##*/} file.mp4"
+  printf "%s\n" "  $ ${0##*/} file1.mp4 file2.mp4 file3.mp4"
+  printf "%s\n" "  $ ${0##*/} *.mp4"
+}
+if [ $# -lt 1 ]; then
+  helpmsg
+  exit 1
+elif [ "$1" = -h ] || [ "$1" = --help ]; then
+  helpmsg
+  exit 0
+else
+  myArray=("$@")
+  for arg in "${myArray[@]}"; do
+    if [ -f "$arg" ]; then
+      ffmpeg -i "$arg" -an -c:v copy "${arg%.*}"."${0##*/}"."${arg##*.}"
+    else
+      printf "%s\n" "$arg is invalid"
+      exit 1
+    fi
+  done
+fi

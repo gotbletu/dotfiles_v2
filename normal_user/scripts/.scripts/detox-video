@@ -2,8 +2,8 @@
 # AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
 
 helpmsg() {
-  printf "%s\n" "desc: clean video filename then add [duration,filesize,resolution]"
-  printf "%s\n" "depend: ffmpeg coreutils perl-file-mimeinfo grep sed gawk"
+  printf "%s\n" "desc: append video filename to include [duration,filesize,resolution,compression]"
+  printf "%s\n" "depend: ffmpeg coreutils file sed grep gawk"
   printf "\n"
   printf "%s\n" "usage: ${0##*/} [file]"
   printf "\n"
@@ -21,12 +21,13 @@ else
   myArray=("$@")
   for arg in "${myArray[@]}"; do
     # check if file is a valid video before continuing
-    get_mimetype=$(mimetype -b "$arg" | cut -d '/' -f1)
+    get_mimetype=$(file --mime-type -b "$arg" | cut -d '/' -f1)
     if [ "$get_mimetype"  = "video" ]; then
+      compression=$(ffmpeg -i "$arg" 2>&1 | grep Video: | cut -d ':' -f4 | cut -d ' ' -f2)
       duration=$(ffmpeg -i "$arg" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,// | cut -d '.' -f1 | awk -F: '{print $1"h"$2"m"$3"s"}')
       filesize=$(du -h "$arg" | awk '{print $1}')
       resolution=$(ffprobe -v error -of flat=s=_ -select_streams v:0 -show_entries stream=height "$arg" | cut -d '=' -f2)
-      mv -n "$arg" "${arg%.*} [${duration},${filesize},${resolution}p].${arg##*.}"
+      mv "$arg" "${arg%.*} [${duration},${filesize},${resolution}p,${compression}].${arg##*.}"
     fi
   done
 fi

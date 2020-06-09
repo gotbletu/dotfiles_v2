@@ -1,11 +1,16 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
-# DESC: task-spooler queue for terminal file manager
 # DEMO: https://www.youtube.com/watch?v=wv8D8wT20ZY
 #       https://www.youtube.com/watch?v=WiP1OM7Kf10
 
+helpmsg() {
+  printf "%s\n" "desc: task-spooler queue for terminal file manager"
+  printf "\n"
+}
 if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-  tsp -h
+  helpmsg
+  var=$(tsp -h)
+  printf "%s\n" "${var/tsp/${0##*/}}"
   exit 0
 else
   TS_SOCKET=/tmp/fm tsp "$@"
