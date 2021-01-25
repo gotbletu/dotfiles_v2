@@ -1,0 +1,374 @@
+#                          _                 _   
+#  _ __   _____      _____| |__   ___   __ _| |_ 
+# | '_ \ / _ \ \ /\ / / __| '_ \ / _ \ / _` | __|
+# | | | |  __/\ V  V /\__ \ |_) | (_) | (_| | |_ 
+# |_| |_|\___| \_/\_/ |___/_.__/ \___/ \__,_|\__|
+#                                          
+# DESC: Configuration and Themes for Newsboat
+# http://www.youtube.com/user/gotbletu
+# https://twitter.com/gotbletu
+# https://github.com/gotbletu
+# gotbletu@gmail.com
+
+#-------- settings {{{
+#------------------------------------------------------
+# http://blog.sanctum.geek.nz/rss-with-newsbeuter/
+#
+#notify-xterm yes
+auto-reload yes                     # auto reload or use crontab instead ( 0 */2 * * * /usr/bin/newsboat -x reload )
+reload-time 150                     # update all feeds every x minutes
+reload-threads 4                    # parallel
+reload-only-visible-feeds yes       # manually reloading all feeds will only reload the currently visible feeds
+suppress-first-reload yes           # do not reload feeds on first startup
+scrolloff 10                        # keep cursor above and below set line
+mark-as-read-on-hover yes
+notify-beep yes
+# user-agent "Liferea/1.4.14 (Linux; en_US.UTF8; http://liferea.sf.net/)"
+# article-sort-order  date-desc
+# feed-sort-order firsttag
+confirm-exit yes
+browser ~/.scripts/urlportal
+# download-full-page yes		# for feeds with link only then dl full page
+download-retries 4
+download-timeout 120
+# delete-read-articles-on-quit yes
+keep-articles-days 120
+prepopulate-query-feeds yes
+save-path ~/.newsboat/saved_articles
+cleanup-on-quit yes
+
+# https://newsbeuter.org/doc/newsbeuter.html#_format_strings
+# Your feeds (Table 6)
+# feedlist-format " %n %4i %11u %t -- %T"
+feedlist-format " %n %4i %13u %t -- %T"
+# Articles in feed (Table 7)
+# articlelist-format  "%4i %f %D   %?T?|%-17T|  ?%t"
+articlelist-format  "%4i %f %D  %?T?|%-17T|  ?%t"
+# notify-format       "%d new articles (%n unread articles, %f unread feeds)"
+
+datetime-format "%b %d %Y" # date example: Mar 01 2017
+
+show-read-feeds yes
+show-read-articles no
+
+#notify-program      "/usr/bin/notify-send"
+#goto-next-feed no
+#max-items 500
+#refresh-on-startup no
+#text-width 72
+#}}}
+#-------- podboat (podcast downloader) {{{
+#------------------------------------------------------
+download-path		"~/Downloads/%n"
+max-downloads		2
+# player			"$PLAYER"
+player			"xdg-open"
+# player			"$URLPORTAL"
+
+# send any links to queue in URL view
+# http://www.newsbeuter.org/doc/newsbeuter.html#_macro_support
+#macro E set browser "echo %u >> ~/.newsbeuter/queue" ; open ; set browser "w3m %u"
+# }}}
+#-------- bookmarks {{{
+#------------------------------------------------------
+# source: https://newsbeuter.wordpress.com/2007/08/27/bookmarking/
+
+bookmark-cmd "~/.scripts/newsbeuter_bookmarks_surfraw.sh"
+# bookmark-interactive yes
+# bookmark-autopilot yes
+
+
+# }}}
+#-------- podboat hotkey {{{
+#------------------------------------------------------
+
+# vim like navigation (right hand jutsu)
+bind-key b pb-toggle-download-all
+bind-key M pb-mark-as-finished
+#}}}
+#-------- newsboat hotkey {{{
+#------------------------------------------------------
+
+# vim like navigation (right hand jutsu)
+bind-key j down
+bind-key k up
+unbind-key l
+bind-key l open
+bind-key h quit
+bind-key Esc quit
+bind-key Q quit
+bind-key ^q hard-quit
+bind-key m toggle-show-read-feeds
+bind-key ^D pagedown
+bind-key ^U pageup
+# bind-key / open-search tagselection
+# bind-key / open-search
+bind-key g home all
+bind-key G end all
+
+# FPS style navigation (left hand jutsu)
+# bind-key x save     # rebind save
+# unbind-key s        # unbind save
+# bind-key s down
+# bind-key w up all
+# bind-key d open
+# bind-key a quit
+
+bind-key i sort
+bind-key I rev-sort
+bind-key a toggle-article-read
+bind-key w toggle-source-view
+
+# bind-key b bookmark   # (default: ^B)
+
+
+
+#}}}
+#-------- macros {{{
+#------------------------------------------------------
+# Note: macro prefix key ( default: , )
+
+# open in cli web browser
+# w3m: https://www.youtube.com/watch?v=Z22cFTB-uqg
+# tmux: https://www.youtube.com/watch?v=ZNM1KfqpyGo
+# macro o set browser "$BROWSERCLI %u"; open-in-browser ; set browser "$BROWSER %u"
+# Note: some links with ? in url doesnt open, not sure how to escape it directly ATM
+
+# macro o set browser "tmux split-window && tmux send-keys '$BROWSERCLI %u && tmux kill-pane\n'"; open-in-browser-and-mark-read ; set browser "$BROWSER %u"
+macro o set browser "tmux split-window -p 80 && tmux send-keys '$BROWSERCLI %u && tmux kill-pane\n'"; open-in-browser ; set browser "$URLPORTAL %u"
+macro z set browser "tmux split-window -p 80 && tmux send-keys '$BROWSERCLI_IMAGE %u && tmux kill-pane\n'"; open-in-browser ; set browser "$URLPORTAL %u"
+
+macro b set browser "tmux split-window -p 80 && tmux send-keys 'browsh -startup-url %u && tmux kill-pane\n'"; open-in-browser ; set browser "$URLPORTAL %u"
+
+# open in gui browser
+# macro ] set browser "$BROWSER"; open-in-browser ; set browser "$BROWSER %u"
+macro w set browser "$BROWSER"; open-in-browser ; set browser "$URLPORTAL %u"
+macro n set browser "$BROWSER_PRIVATE"; open-in-browser ; set browser "$URLPORTAL %u"
+
+# read reddit comments with rtv (reddit terminal viewer)
+# rtv: https://www.youtube.com/watch?v=jc2ZVSof5-g
+# macro r set browser "rtv -l %u"; open-in-browser ; set browser "$BROWSER %u"
+macro r set browser "tmux split-window -p 80 && tmux send-keys 'rtv -l %u && tmux kill-pane\n'"; open-in-browser ; set browser "$URLPORTAL %u"
+
+# readability
+# macro [ set browser "tmux split-window -p 80 && tmux send-keys 'w3m http://justread.mpgarate.com/read?url=%u && tmux kill-pane\n'"; open-in-browser ; set browser "$BROWSER %u"
+
+# add video or audio to play queue using mpv (requires: task-spooler, mpv, youtube-dl)
+# task-spooler: https://www.youtube.com/watch?v=wv8D8wT20ZY
+# youtube-dl: https://www.youtube.com/watch?v=MFxlwVhwayg
+macro p set browser "tsp mpv --ontop --no-border --force-window --autofit=500x280 --geometry=-15-60 %u"; open-in-browser ; set browser "$URLPORTAL %u"
+macro l set browser "tsp mpv --ontop --no-border --force-window --autofit=500x280 --geometry=-1920-50 %u"; open-in-browser ; set browser "$URLPORTAL %u"
+# macro p set browser "tsp mpv --ontop --no-border --force-window --autofit=500x280 --geometry=-15-10 %u"; open-in-browser-and-mark-read ; set browser "$BROWSER %u"
+
+# read saved files
+# ranger: https://www.youtube.com/watch?v=qooLR8NmYKs
+# w3m context url: https://www.youtube.com/watch?v=C7YPjbrTeCs
+macro s set browser "tmux split-window && tmux send-keys 'ranger ~/.newsboat/saved_articles && tmux kill-pane\n'" ; open-in-browser ; set browser "$URLPORTAL %u"
+
+# copy url to clipboard "yank" (via xclip)
+# xclip: https://www.youtube.com/watch?v=fKP0FLp3uW0
+macro x set browser "echo -n %u | xclip -selection clipboard" ; open-in-browser ; set browser "$URLPORTAL %u"
+
+# copy url to clipboard "yank" (via tmux clipboard)
+macro y set browser "tmux set-buffer %u" ; open-in-browser ; set browser "$URLPORTAL %u"
+
+# add torrents or magnet links to client
+macro t set browser "$HOME/.scripts/shellscripts/torrentportal %u"; open-in-browser ; set browser "$URLPORTAL %u"
+
+# read or post youtube comments (via youtube-viewer)
+macro c set browser "tmux set-buffer %u && tmux split-window -p 80 && tmux send-keys 'youtube-viewer --comments=$(tmux show-buffer) && tmux kill-pane\n'"; open-in-browser ; set browser "$URLPORTAL %u"
+
+# display youtube video description (via youtube-viewer)
+macro i set browser "tmux set-buffer %u && tmux split-window -p 80 && tmux send-keys 'youtube-viewer --info=$(tmux show-buffer) && tmux kill-pane\n'"; open-in-browser ; set browser "$URLPORTAL %u"
+
+macro m set browser "tmux set-buffer %u && tmux split-window -p 80 && tmux send-keys 'youtube-viewer --related=$(tmux show-buffer) && tmux kill-pane\n'"; open-in-browser ; set browser "$URLPORTAL %u"
+
+
+# open youtube-dl supported video or audio with default player
+# macro u set browser "youtube-dl -o - %u | $PLAYER -"; open-in-browser ; set browser "$BROWSER %u"
+# macro u set browser "nohup $PLAYER $(youtube-dl -g %u) >/dev/null 2>&1 & disown"; open-in-browser ; set browser "$BROWSER %u"
+# macro i set browser "$IMAGEVIEWER %u"; open-in-browser ; set browser "$BROWSER %u"
+# macro m set browser "$PLAYER %u"; open-in-browser ; set browser "$BROWSER %u"
+macro v set browser "lynx -dump %u | awk '/http/{print $2}' | awk '!x[$0]++' | vim -R -"; open-in-browser ; set browser "$URLPORTAL %u"
+# macro p pipe-to "grep -o 'http.*mp3' | xargs -n1 mpv" ; toggle-article-read "read"
+# macro t pipe-to xclip -selection clipboard | grep "^Title:"
+# bind-key ^B pipe-to "xclip -selection clipboard"
+# macro m set browser "(echo -n %u | xclip -selection clipboard) && tmux split-window && tmux send-keys 'mpsyt url "$(xclip -selection clipboard -o)" && tmux kill-pane\n'" ; open-in-browser ; set browser "$BROWSER %u"
+
+# }}}
+#-------- filter {{{
+#------------------------------------------------------
+# https://newsbeuter.org/doc/newsbeuter.html#_filter_language
+# only works with Attributes > Context > feed,article
+# e.g: feedtitle, description, feedlink, feeddate, rssurl, unread_count, total_count, tags, feedindex
+
+# 'title' is not available
+# 'author' is not available
+
+# Feed: gotbletu                                              <--- feedtitle
+# Title: browsh - Modern Text-Based Browser - Linux TUI
+# Author: gotbletu
+# Link: https://www.youtube.com/watch?v=HZq86XfBoRo
+# Date: Wed, 11 Jul 2018 17:00:03 -0700
+
+define-filter "Top 10 Most Pirated Movies of The Week on BitTorrent" "feedtitle =~ \"DVDrip – TorrentFreak\""
+define-filter "gotbletu" "feedtitle =~ \"gotbletu\" or description =~ \"gotbletu\""
+# define-filter "windowsdec" "description =~ \"windows\""
+# define-filter "windows" "title = \"firearms\""
+# define-filter "gotbletudesc" "description =~ \"gotbletu\""
+# define-filter "alt living" "feedtitle =~ \"tiny house\""
+# define-filter "Top10TagANDFeedTitle" "tags # \"Video-MovieTalk\" and feedtitle =~ \"Top 10 Most Pirated Movies of The Week on BitTorrent\""
+# define-filter "Top10TagANDFeelink" "tags # \"Video-MovieTalk\" and feedlink =~ \"https://torrentfreak.com/top-10-pirated-movies-week-bittorrent\""
+# define-filter "Top10FeedTitle-Top10" "description =~ \"Top 10 Most Pirated Movies of The Week on BitTorrent\""
+
+# }}}
+
+# pager "w3m /usr/lib/w3m/cgi-bin/treat_as_url.cgi %f"
+
+
+##############################
+####### THEMES ###############
+##############################
+#-------- Legends {{{
+#------------------------------------------------------
+# references: https://newsbeuter.org/doc/newsbeuter.html#_configuring_colors
+# background                Loading Status at the bottom [e.g (5/25) Loading https://www.reddit.com/r/commandline/.rss]
+# listfocus                 [Feed Window Listing] line is highlighted
+# listnormal                [Feed Window Listing] line is NOT highlighted
+# listfocus_unread          [Article Window Listing] line is highlighted
+# listnormal_unread         [Article Window Listing] line is NOT highlighted
+# info                      Information Bar at the top/bottom [e.g ENTER:Open n:Next Unread r:Reload R:Reload ?:Help]
+# article                   Body of the Article
+# }}}
+
+# Note: themes base on Tango Palette Color Scheme on Guake Terminal
+# color <element>           <fgcolor>  <bgcolor>    [<attr> ...]; default value: n/a)
+# #-------- Theme: Tron Legacy by gotbletu (2015) {{{
+# #------------------------------------------------------
+# # preview: https://i.imgur.com/1ipdUxw.png
+#
+# color   background          cyan       black
+# color   listfocus           cyan       white
+# color   listnormal          cyan       black
+# color   listfocus_unread    cyan       white
+# color   listnormal_unread   cyan       black
+# color   info                cyan       black
+# color   article             cyan       black
+# # }}}
+# #-------- Theme: Tron Clu by gotbletu (2015) {{{
+# #------------------------------------------------------
+# # preview: https://i.imgur.com/RnhqS8W.png
+#
+# color   background          yellow      black
+# color   listfocus           white       green        bold
+# color   listnormal          yellow      black
+# color   listfocus_unread    white       green        bold
+# color   listnormal_unread   yellow      black
+# color   info                yellow      black
+# color   article             yellow      black
+# # }}}
+# #-------- Theme: The Brood by gotbletu (2015) {{{
+# #------------------------------------------------------
+# # preview: https://i.imgur.com/76ZFiLL.png
+#
+# # highlight article "^(Title):.*$" blue black
+# # highlight article "^(Date):.*$" green black
+# # highlight article "https?://[^ ]+" green black
+# # highlight article "\\[image\\ [0-9]+\\]" green black
+#
+# # highlights
+# highlight article "^(Feed|Title|Link|Date|Author):.*$" green black
+# highlight article "https?://[^ ]+"  blue black
+#
+#
+# color   background          red        black
+# color   listfocus           red        black        bold
+# color   listnormal          red        black
+# color   listfocus_unread    red        black        bold
+# color   listnormal_unread   red        black
+# color   info                red        black
+# color   article             red        black
+#
+#
+#
+# # }}}
+# #-------- Theme: Green Ranger Power by gotbletu (2017) {{{
+# #------------------------------------------------------
+# # preview: https://i.imgur.com/k3uEt8i.png
+#
+# color   background          green      black
+# color   listfocus           green      black        bold
+# color   listnormal          green      black
+# color   listfocus_unread    green      black        bold
+# color   listnormal_unread   green      black
+# color   info                green      black
+# color   article             green      black
+#
+# # }}}
+# #-------- Theme: Solarized-dark {{{
+# #------------------------------------------------------
+# ## source: https://github.com/newsboat/newsboat/blob/master/contrib/colorschemes/solarized-dark
+#
+# color background         default   default
+# color listnormal         default   default
+# color listnormal_unread  default   default
+# color listfocus          black     yellow
+# color listfocus_unread   black     yellow
+# color info               default   black
+# color article            default   default
+#
+# # highlights
+# highlight article "^(Title):.*$" blue default
+# highlight article "https?://[^ ]+" red default
+# highlight article "\\[image\\ [0-9]+\\]" green default
+#
+# # }}}
+#-------- Theme: Solarized-dark Modded {{{
+#------------------------------------------------------
+## source: https://github.com/newsboat/newsboat/blob/master/contrib/colorschemes/solarized-dark
+
+color background         default   default
+color listnormal         default   default
+color listnormal_unread  default   default
+color listfocus          black     green
+color listfocus_unread   black     green
+color info               default   black
+color article            default   default
+
+# highlights
+highlight article "^(Title):.*$" blue default
+highlight article "https?://[^ ]+" red default
+highlight article "\\[image\\ [0-9]+\\]" green default
+
+# }}}
+# #-------- Highlight sample {{{
+# #------------------------------------------------------
+# highlight article "^Feed:.*" color174 default
+# highlight article "^Title:.*" color223 color108 bold
+# highlight article "^Author:.*" color114 default
+# highlight article "^Link:.*" color116 default
+# highlight article "^Date:.*" color223 default
+# highlight article "\\[[0-9][0-9]*\\]" color66 default bold
+# highlight article "\\[image [0-9][0-9]*\\]" color109 default bold
+# highlight article "\\[embedded flash: [0-9][0-9]*\\]" color66 default bold
+#
+# # }}}
+#-------- Theme: Empty {{{
+#------------------------------------------------------
+
+# }}}
+#-------- Theme: Empty {{{
+#------------------------------------------------------
+
+# }}}
+#-------- Theme: Empty {{{
+#------------------------------------------------------
+
+# }}}
+#-------- Theme: Empty {{{
+#------------------------------------------------------
+
+# }}}
+
+
+

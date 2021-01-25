@@ -1,0 +1,90 @@
+#                          _                 _                _     
+#  _ __   _____      _____| |__   ___   __ _| |_   _   _ _ __| |___ 
+# | '_ \ / _ \ \ /\ / / __| '_ \ / _ \ / _` | __| | | | | '__| / __|
+# | | | |  __/\ V  V /\__ \ |_) | (_) | (_| | |_  | |_| | |  | \__ \
+# |_| |_|\___| \_/\_/ |___/_.__/ \___/ \__,_|\__|  \__,_|_|  |_|___/
+
+# -------- Starred Articles / Flagged Articles {{{
+# ------------------------------------------------------
+# https://newsboat.org/releases/2.10.1/docs/newsboat.html#_flagging_articles
+# https://github.com/akrennmair/newsbeuter/issues/464#issuecomment-272574679
+# Usage: go to an article, press Ctrl+e, press s, press enter; it will now show up in your 'Starred Articles' query feed
+# To Cancle: press Escape
+"query:Starred Articles:flags # \"s\""
+
+# }}}
+# -------- Query Feeds {{{
+# ------------------------------------------------------
+# http://www.offensivethinking.org/blog/2009/05/12/efficient-rss-reading.html
+# https://github.com/gpakosz/.newsbeuter/blob/master/urls
+# http://www.newsbeuter.org/doc/newsbeuter.html#_query_feeds
+# hidden query feeds: https://github.com/newsboat/newsboat/issues/33
+# query:<name of feed>:<filter expression> [<tag> ...]
+
+# "query:Unread Articles (3month year old):unread = \"yes\" and tags !# \"pouet\" and tags !# \"page2rss\" and age between 0:365"
+# "query:Unread Articles (1 year old):unread = \"yes\" and tags !# \"pouet\" and tags !# \"page2rss\" and age between 0:365"
+# "query:Unread Articles (1 month old):unread = \"yes\" and tags !# \"pouet\" and tags !# \"page2rss\" and age between 0:31"
+# "query:Unread Articles (1 week old):unread = \"yes\" and tags !# \"pouet\" and tags !# \"page2rss\" and age between 0:7"
+
+# "query:All Unread Articles (7 days old):unread = \"yes\" and age between 0:7"
+# "query:All Unread Articles (1 month old):unread = \"yes\" and age between 0:30"
+# "query:All Unread Articles (31-60 days old):unread = \"yes\" and age between 31:60"
+# "query:All Unread Articles (61-90 days old):unread = \"yes\" and age between 61:90"
+
+"query:All Unread Articles:unread = \"yes\""
+"query:All Articles DDL-DataHoarder:tags # \"DDL-DataHoarder\"" "DDL-DataHoarder"
+"query:All Articles Linux-Subreddit:tags # \"Linux-Subreddit\"" "Linux-Subreddit"
+"query:All Articles Video-Linux:tags # \"Video-Linux\"" "Video-Linux"
+
+# "query:All Unread Articles (30days):unread = \"yes\" and (age between 0:31)"
+# "query:Unread Articles (primary):unread = \"yes\" and tags # \"primary\""
+# "query:TwitterURLs:tags =~ \"5. Twitter\" and content =~ \"http\"" "5. Twitter"
+# "query:Unread Articles (1 year old):unread = \"yes\" and tags !# \"pouet\" and tags !# \"page2rss\" and age between 0:365"
+# "query:Unread Articles:unread = \"yes\" and tags !# \"pouet\" and tags !# \"page2rss\""
+
+# }}}
+# -------- DDL-DataHoarder {{{
+# ------------------------------------------------------
+https://www.reddit.com/r/opendirectories/.rss "DDL-DataHoarder"
+https://www.reddit.com/r/DHExchange/.rss "DDL-DataHoarder"
+
+# }}}
+# -------- Linux-Subreddit {{{
+# ------------------------------------------------------
+
+https://www.reddit.com/r/termux/.rss "Linux-Subreddit"
+https://www.reddit.com/r/w3m/.rss "Linux-Subreddit"
+https://www.reddit.com/r/clistuff/.rss "Linux-Subreddit"
+https://www.reddit.com/r/linux/.rss "Linux-Subreddit"
+https://www.reddit.com/r/commandline/.rss "Linux-Subreddit"
+https://www.reddit.com/r/unixporn/.rss "Linux-Subreddit"
+https://www.reddit.com/r/UsabilityPorn/.rss "Linux-Subreddit"
+https://www.reddit.com/r/pkgoftheday/.rss "Linux-Subreddit"
+https://www.reddit.com/r/gnu/.rss "Linux-Subreddit"
+https://www.reddit.com/r/archlinux/.rss "Linux-Subreddit"
+https://www.reddit.com/r/linux_devices/.rss "Linux-Subreddit"
+https://www.reddit.com/r/UnixProTips/.rss "Linux-Subreddit"
+https://www.reddit.com/r/zsh/.rss "Linux-Subreddit"
+https://www.reddit.com/r/neovim/.rss "Linux-Subreddit"
+https://www.reddit.com/r/tmux/.rss "Linux-Subreddit"
+https://www.reddit.com/r/bash/.rss "Linux-Subreddit"
+https://www.reddit.com/r/vim_magic/.rss "Linux-Subreddit"
+https://www.reddit.com/r/vim/.rss "Linux-Subreddit"
+https://www.reddit.com/r/vimplugins/.rss "Linux-Subreddit"
+https://www.reddit.com/r/linuxprojects/.rss "Linux-Subreddit"
+https://www.reddit.com/r/ScriptSwap/.rss "Linux-Subreddit"
+https://www.reddit.com/r/usefulscripts/.rss "Linux-Subreddit"
+https://www.reddit.com/r/i3wm/.rss "Linux-Subreddit"
+https://www.reddit.com/r/debian/.rss "Linux-Subreddit"
+https://www.reddit.com/r/opensource/.rss "Linux-Subreddit"
+https://www.reddit.com/r/coolgithubprojects/.rss "Linux-Subreddit"
+https://www.reddit.com/r/selfhosted/.rss "Linux-Subreddit"
+
+# }}}
+# -------- Video-Linux {{{
+# ------------------------------------------------------
+https://www.youtube.com/feeds/videos.xml?user=gotbletu "Video-Linux"
+https://www.youtube.com/feeds/videos.xml?user=Jakejw93 "Video-Linux"
+https://www.youtube.com/feeds/videos.xml?user=sneekylinux "Video-Linux"
+https://www.youtube.com/feeds/videos.xml?channel_id=UCIaiAJKGrdkVXD26ycTFPzQ "Video-Linux" "~OpenShot"
+# }}}
