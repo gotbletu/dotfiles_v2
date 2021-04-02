@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # AUTHOR: gotbletu (@gmail|twitter|youtube|github|lbry)
+#         https://www.youtube.com/user/gotbletu
 
 DIR=CONVERTED_MKVHEVC
 helpmsg() {
@@ -30,7 +31,10 @@ else
       # very clear (same as OG)
       # ffmpeg -i "$arg" -c:v libx265 -preset medium -crf 23 -x265-params lossless -c:a copy -c:s copy "${arg%.*} x265 crf23.mkv"
       # smaller file size, semi clear to OG
-      ffmpeg -i "$arg" -c:v libx265 -preset medium -crf 28 -x265-params lossless -c:a copy -c:s copy "$DIR/${arg%.*}.mkv"
+      # ffmpeg -i "$arg" -c:v libx265 -preset medium -crf 28 -x265-params lossless -c:a copy -c:s copy "$DIR/${arg%.*}.mkv"
+      # date--8/3/20    ffmpeg--2:4.3.1-1    x265--3.4-1
+      # ffmpeg -i "$arg" -c:v libx265 -preset medium -crf 28 -x265-params lossless=1 -c:a copy -c:s copy "$DIR/${arg%.*}.mkv"
+      ffmpeg -i "$arg" -c:v libx265 -preset medium -crf 28 -c:a copy -c:s copy "$DIR/${arg%.*}.mkv"
     else
       printf "%s\n" "$arg is invalid or output file already exist"
       exit 1
